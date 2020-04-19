@@ -56,7 +56,7 @@ class VEGAS{
         // Claculate the partial integrals. Returns \int|f|*NPoints. This is what we need to 
         // get the regulated weights. 
         LD PartialIntegrals();
-        // Update the weights
+        // Update the bins
         void UpdateBins();
 
         // take the integral in [0,1]
