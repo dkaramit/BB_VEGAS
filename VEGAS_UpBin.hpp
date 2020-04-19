@@ -10,9 +10,6 @@ void VEGAS_Namespace::UpdateBins(){
     
     LD dx0,dxi;
     LD binsizes[NBin];
-    
-
-
 
     LD w0;//This is a temporary variable to keep weights[dim][0]. Do this in order to be able to reset
     // all weights at the end of each loop. 

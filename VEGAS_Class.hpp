@@ -8,8 +8,9 @@
 #include<cstring>
 
 // define some macros
-
-
+// Func is a function type
+// NDim the number of dimensions
+// NBin the number of bins
 #define VEGAS_Template template<class LD, class Func, int NDim, int NBin>
 #define VEGAS_Namespace VEGAS<LD,Func,NDim,NBin>
 
@@ -22,9 +23,13 @@ class VEGAS{
         
 
 
-        Func Integrand;
+        Func Integrand; //this is the function to be integrated
+        
         int NPoints,NBatches,NAdapts,AdaptPoints;
-        LD  constK, alpha ;
+        // alpha is the exponent used to regulate the weights.
+        // constK makes the difference between the large and small weights grater (provided is a large number).
+        // See UpdateBins to see how it affects the regulated weights.
+        LD  constK, alpha ; 
 
         // Notice that N number of bins need N+1 points to be defined
         LD Grid[NDim][NBin+1];
@@ -38,7 +43,7 @@ class VEGAS{
 
 
         VEGAS( Func function, int NPoints, int NBatches, 
-        int NAdapts, int AdaptPoints, int constK=1, LD alpha=0.9);
+        int NAdapts, int AdaptPoints, int constK=50, LD alpha=0.9);
         ~VEGAS(){};
 
         //get a random point in [min,max]
