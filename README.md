@@ -6,7 +6,7 @@
 ![](https://img.shields.io/github/repo-size/dkaramit/BB_VEGAS?color=blue)
 
 
-A ```VEGAS``` Monte Integration project. As the name implies, it is just an implementation of the ```VEGAS``` algorithm introduced in [G. P. Lepage JOURNAL  OF COMPUTATIONAL A New Algorithm PHYSICS 27, 192-203 (1978)](https://www.sciencedirect.com/science/article/pii/0021999178900049?via%3Dihub).
+A ```VEGAS``` Monte Carlo Integration project. As the name implies, it is just an implementation of the ```VEGAS``` algorithm introduced in [G. P. Lepage JOURNAL  OF COMPUTATIONAL A New Algorithm PHYSICS 27, 192-203 (1978)](https://www.sciencedirect.com/science/article/pii/0021999178900049?via%3Dihub).
 
 
 The idea is similar to [*NaBBODES*](https://dkaramit.github.io/NaBBODES), *i.e.* have a simple implementation ready, and allow the user to easily hack and modify the code to meet their needs.
@@ -19,6 +19,7 @@ This project started in [*ASAP*](https://dkaramit.github.io/ASAP), which tries t
 - [ ] Read and write grid on file.
 - [ ] Add stratified sampling phase.
 - [ ] Maybe better regularization of weights?
+- [ ] This algorithm learns to sample from a given distribution. What else can it learn?
 
 That's it for now.
 
