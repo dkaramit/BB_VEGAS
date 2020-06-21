@@ -2,17 +2,18 @@
 #include<cmath>
 #include<functional>
 #include"VEGAS.hpp"
-//
+
+
+
 
 // Dimention of integral
 #define NDim 2
 
 // initial number of bins (the same in every dimention)
-#define NBinInit 1
+#define NBinInit 2
 
 // desired number of bins (run Subdivision until NBin is reached)
 #define NBin 100
-
 
 // number of points in each evaluation of the integral
 #define NPoints 500
@@ -34,12 +35,13 @@
 // Large alpha destibilizes the adaptation, and small aplha results to slow adaptation. 
 #define alpha 0.9
 
-#ifndef LD
-#define LD long double
+#ifndef LONG
+#define LONG  
 #endif
 
+#define LD LONG double
+
 // define the type of function to be used in VEGAS template
-// 
 typedef std::function<void(LD x[NDim], LD *retrn)> Func;
 
 

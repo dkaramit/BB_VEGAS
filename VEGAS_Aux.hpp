@@ -19,7 +19,6 @@ void VEGAS_Namespace::PrintGrid(){
 
 
 
-
 VEGAS_Template
 void VEGAS_Namespace::PrintGrid(int dim){
     for( auto _G: this->Grid[dim] ){
