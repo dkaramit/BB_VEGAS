@@ -5,10 +5,11 @@
 #include <vector>
 #include <iterator>
 #include <cmath>
-// define some macros
+// define some macros to avoid copy-paste of the same thing again and again:
 // Func is a function type
 // NDim the number of dimensions
 // NBin the number of bins
+// NBinInit the number of intial bins (if NBinInit ~= NBin, run subdivision until the number of buns is NBin)
 #define VEGAS_Template template<class LD, class Func, int NDim, int NBin, int NBinInit>
 #define VEGAS_Namespace VEGAS<LD,Func,NDim,NBin,NBinInit>
 
@@ -31,7 +32,7 @@ class VEGAS{
         // LD weights[NDim][NBin];
 
         // allow for the bins to be dynamically allocated (Grid and weights are arrays of vectors)
-        std::vector<LD> Grid[NDim],weights[NDim];
+        typename std::vector<LD> Grid[NDim],weights[NDim];
 
         std::random_device RndDiv;
         std::default_random_engine RndE;
