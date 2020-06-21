@@ -33,7 +33,7 @@ LD VEGAS_Namespace::IntegrateBatch(LD *IntMean, LD *IntSigma   ){
 
     *IntMean=SumI3Var/SumI2Var;
     
-    *IntSigma=*IntMean/sqrt( SumI2Var);
+    *IntSigma=*IntMean/std::sqrt( SumI2Var);
 
     chi2=SumI2Var+(*IntMean)*(*IntMean)*SumInvVar-2*SumI1Var*(*IntMean) ;
 

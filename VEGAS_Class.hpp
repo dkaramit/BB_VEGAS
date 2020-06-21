@@ -2,17 +2,15 @@
 #define VEGAS_class
 
 // Just a thought: use different number of points for the wheights, and different for the integral.
-
-
-// for memset:
-#include<cstring>
-
+#include <vector>
+#include <iterator>
+#include <cmath>
 // define some macros
 // Func is a function type
 // NDim the number of dimensions
 // NBin the number of bins
-#define VEGAS_Template template<class LD, class Func, int NDim, int NBin>
-#define VEGAS_Namespace VEGAS<LD,Func,NDim,NBin>
+#define VEGAS_Template template<class LD, class Func, int NDim, int NBin, int NBinInit>
+#define VEGAS_Namespace VEGAS<LD,Func,NDim,NBin,NBinInit>
 
 
 
@@ -20,9 +18,6 @@
 VEGAS_Template
 class VEGAS{
     public:
-        
-
-
         Func Integrand; //this is the function to be integrated
         
         int NPoints,NBatches,NAdapts,AdaptPoints;
@@ -32,15 +27,17 @@ class VEGAS{
         LD  constK, alpha ; 
 
         // Notice that N number of bins need N+1 points to be defined
-        LD Grid[NDim][NBin+1];
-        LD weights[NDim][NBin];
+        // LD Grid[NDim][NBin+1];
+        // LD weights[NDim][NBin];
 
+        // allow for the bins to be dynamically allocated (Grid and weights are arrays of vectors)
+        std::vector<LD> Grid[NDim],weights[NDim];
 
         std::random_device RndDiv;
         std::default_random_engine RndE;
         std::uniform_real_distribution<LD> UnDist;
         std::uniform_int_distribution<> UnInt;
-
+        std::uniform_int_distribution<> UnIntN;
 
         VEGAS( Func function, int NPoints, int NBatches, 
         int NAdapts, int AdaptPoints, int constK=50, LD alpha=0.9);
@@ -50,14 +47,19 @@ class VEGAS{
         LD Random(LD min , LD max);
         // get random bin in NDimention NDim
         int RandomBin();
+        int RandomBin(int NB);
 
 
 
         // Claculate the partial integrals. Returns \int|f|*NPoints. This is what we need to 
         // get the regulated weights. 
-        LD PartialIntegrals();
+        LD PartialIntegrals(int NB=NBin);
+
+        // subdivide the bin with the largest contribution untion you have NBin number of bins
+        void SubDivision();
+
         // Update the bins
-        void UpdateBins();
+        void UpdateBins(int NB=NBin);
 
         // take the integral in [0,1]
         LD IntegrateTot();
@@ -67,7 +69,7 @@ class VEGAS{
         // It returns chi^2/(NBathes-1) which should be close to 1.
         LD IntegrateBatch(LD *IntMean, LD *IntSigma);
 
-        // Combine everything together. First adapt, and then run  IntegrateBatch
+        // Combine everything together. First adapt, and then run IntegrateBatch
         LD Integrate(LD *IntMean, LD *IntSigma);
 
 
@@ -85,9 +87,9 @@ class VEGAS{
         void PrintWeights();
         
         // Calculate the  weights. Just to check that the algorithm works. In practice we only need the partial integrals.
-        LD CalculateWeights();
+        LD CalculateWeights(int NB=NBin);
         // check that the sum of wieghts in each dimension is 1; (this is in CalcWeights-Check.hpp)
-        void CheckWeights();
+        void CheckWeights(int NB=NBin);
 };
 
 #endif

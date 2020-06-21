@@ -4,12 +4,11 @@
 
 
 VEGAS_Template
-void VEGAS_Namespace::UpdateBins(){
+void VEGAS_Namespace::UpdateBins(int NB){
 
-    LD AbsInt = PartialIntegrals();
-    
+    LD AbsInt = PartialIntegrals(NB);
     LD dx0,dxi;
-    LD binsizes[NBin];
+    LD binsizes[NB];
 
     LD w0;//This is a temporary variable to keep weights[dim][0]. Do this in order to be able to reset
     // all weights at the end of each loop. 
@@ -22,13 +21,13 @@ void VEGAS_Namespace::UpdateBins(){
             
 
             // this is weights[dim][0] (the regulated one) for bin=m of this dim.
-            w0=1+ pow(1+weights[dim][0]/AbsInt * log(constK*weights[dim][0]/AbsInt + 1 ),alpha  );
+            w0=1+ std::pow(1+weights[dim][0]/AbsInt * std::log(constK*weights[dim][0]/AbsInt + 1 ),alpha  );
 
-            for( int bin = 0 ; bin < NBin ; ++bin)
+            for( int bin = 0 ; bin < NB ; ++bin)
             {
                 binsizes[bin]=Grid[dim][bin+1]-Grid[dim][bin];
 
-                weights[dim][bin]=1+ pow(1+weights[dim][bin]/AbsInt * log(constK*weights[dim][bin]/AbsInt + 1 ),alpha  );
+                weights[dim][bin]=1+ std::pow(1+weights[dim][bin]/AbsInt * std::log(constK*weights[dim][bin]/AbsInt + 1 ),alpha  );
 
                 dx0+=w0/binsizes[0]*(binsizes[bin]/weights[dim][bin]);
             }
@@ -36,7 +35,7 @@ void VEGAS_Namespace::UpdateBins(){
 
             dxi=0;
             Grid[dim][0]=0; // this is true by default. But put it to be sure...
-            for( int bin = 0 ; bin < NBin ; ++bin)
+            for( int bin = 0 ; bin < NB ; ++bin)
             {
                 Grid[dim][bin+1]=Grid[dim][bin]+ dx0*binsizes[bin]/weights[dim][bin]*w0/binsizes[0];
                 weights[dim][bin]=0; //You no longer need this weight. 

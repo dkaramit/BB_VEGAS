@@ -9,14 +9,11 @@
 // as m->m+1 , m-> (K* m log( m ))^alpha.
 
 VEGAS_Template
-LD VEGAS_Namespace::PartialIntegrals( ){
+LD VEGAS_Namespace::PartialIntegrals(int NB){
     LD FuncPoint, point[NDim];
     int bins[NDim];
     LD inv_dist;
     LD AbsInt=0;
-
-    // you can reset the weights at the end of UpdateBins(), so you don't need to reset them here.
-    // memset(weights , 0 ,sizeof  weights);// They say is the fastest way to set an array to 0;
 
     // you get NPoints number of points
     for(int np=0 ; np <AdaptPoints ;++np){
@@ -27,7 +24,7 @@ LD VEGAS_Namespace::PartialIntegrals( ){
         // fill a point[NDims]. Get a random bin from each dimention. Here is where you can get 1/p(x).
         // Also in order to get the weight from this, you need to know in what bin is every point[dim].
         for(int dim = 0 ; dim < NDim ; ++dim){
-            bins[dim]=RandomBin();
+            bins[dim]=RandomBin(NB);
 
             point[dim] = Random( Grid[dim][bins[dim]] , Grid[dim][bins[dim]+1] ); 
             inv_dist*=NBin*(Grid[dim][bins[dim]+1] - Grid[dim][bins[dim]]);
@@ -44,10 +41,7 @@ LD VEGAS_Namespace::PartialIntegrals( ){
         }
     }
     return AbsInt;
-}   
-
-
-
+}
 
 
 #endif

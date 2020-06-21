@@ -9,13 +9,13 @@
 // Calsulate the weights. Basically, you calculate int_{0}^{1} |f|, and as you sample you can also 
 // get the partial integrals (since you know in which bin is each point). 
 VEGAS_Template
-LD VEGAS_Namespace::CalculateWeights( ){
+LD VEGAS_Namespace::CalculateWeights(int NB){
     LD FuncPoint, point[NDim];
     int bins[NDim];
     LD inv_dist;
     LD AbsInt=0;
 
-    memset(weights , 0 ,sizeof  weights);// They say is the fastest way to set an array to 0;
+    // memset(weights , 0 ,sizeof  weights);// They say is the fastest way to set an array to 0;
 
     // you get NPoints number of points
     for(int np=0 ; np <NPoints ;++np){
@@ -26,7 +26,7 @@ LD VEGAS_Namespace::CalculateWeights( ){
         // fill a point[NDims]. Get a random bin from each dimention. Here is where you can get 1/p(x).
         // Also in order to get the weight from this, you need to know in what bin is every point[dim].
         for(int dim = 0 ; dim < NDim ; ++dim){
-            bins[dim]=RandomBin();
+            bins[dim]=RandomBin(NB);
             point[dim] = Random( Grid[dim][bins[dim]] , Grid[dim][bins[dim]+1] ); 
             inv_dist*=NBin*(Grid[dim][bins[dim]+1] - Grid[dim][bins[dim]]);
         }
@@ -45,7 +45,7 @@ LD VEGAS_Namespace::CalculateWeights( ){
     // You can check and see that the sum over the bits of each dim is 1.
     for(int dim = 0 ; dim < NDim ; ++dim)
         {
-            for( int bin = 0 ; bin < NBin ; ++bin)
+            for( int bin = 0 ; bin < NB ; ++bin)
             {
                 weights[dim][bin]=weights[dim][bin]/AbsInt;
             }
@@ -57,13 +57,13 @@ LD VEGAS_Namespace::CalculateWeights( ){
 
 
 VEGAS_Template
-void VEGAS_Namespace::CheckWeights(){
+void VEGAS_Namespace::CheckWeights(int NB){
     LD tmp;
 
         for(int dim = 0 ; dim < NDim ; ++dim)
             {
                 tmp=0;
-                for( int bin = 0 ; bin < NBin ; ++bin)
+                for( int bin = 0 ; bin < NB ; ++bin)
                 {
                     tmp+=weights[dim][bin];
                 }

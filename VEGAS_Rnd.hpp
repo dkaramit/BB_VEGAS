@@ -19,5 +19,14 @@ int VEGAS_Namespace::RandomBin(){
     return UnInt(RndE);
 }
 
+// get random integer from 0 to NB
+VEGAS_Template
+int VEGAS_Namespace::RandomBin(int NB){
+    std::uniform_int_distribution<> _UnInt(0, NB-1);
+    this-> UnIntN =_UnInt;
+
+    RndE.seed( RndDiv () );
+    return _UnInt(RndE);
+}
 
 #endif
