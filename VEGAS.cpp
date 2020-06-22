@@ -22,12 +22,12 @@
 // number of batches (each batch calculates the integral using NPoints number of poins).
 #define NBatches 33
 
-// Number of interations to use to refine the grid
+// Number of integrations to use to refine the grid
 #define NAdapts 50
 // Number of points to use when refining the grid
 #define AdaptPoints 1500
 
-// Number of adaptations during subdivision phase
+// Number of refinement during subdivision phase
 #define NAdaptSubDivs 3
 
 // Number of points to use during the subdivision phase 
