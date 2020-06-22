@@ -27,7 +27,9 @@ void VEGAS_Namespace::SubDivision(){
             Grid[i].insert(Grid[i].begin()+ind+1,mid);
             weights[i].insert(it,0);
         }
-        UpdateBins(_+1);        
+        // UpdateBins(_+1);
+        // adapt the new grid NAdaptSubDivs times
+        for(int n_sub = 0; n_sub < NAdaptSubDivs ; ++n_sub){UpdateBins(_+1);}        
     }
 }
 

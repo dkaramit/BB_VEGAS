@@ -12,20 +12,26 @@
 #define NDim 1
 
 // initial number of bins (the same in every dimention)
-#define NBinInit 100
+#define NBinInit 25
 
 // desired number of bins (run subdivision until NBin is reached)
-#define NBin 150
+#define NBin 55
 
 // number of points in each evaluation of the integral
-#define NPoints 3000
+#define NPoints 1500
 // number of batches (each batch calculates the integral using NPoints number of poins).
-#define NBatches 50
+#define NBatches 33
 
 // Number of interations to use to refine the grid
 #define NAdapts 50
 // Number of points to use when refining the grid
-#define AdaptPoints 1000
+#define AdaptPoints 1500
+
+// Number of adaptations during subdivision phase
+#define NAdaptSubDivs 3
+
+// Number of points to use during the subdivision phase 
+#define SubDivPoints 750
 
 // The constant that multiplies the regulated weights in the logarithm (you can take it to be ~1000).
 // the function that regulates the weights is different that what peaple use.
@@ -35,7 +41,7 @@
 // The damping exponent. This regulates how fast the grid adapts. It should be in [0.2,2],
 // but I find that 0.5 usually works  given large enough NAdapts.
 // Large alpha destibilizes the adaptation, and small aplha results to slow adaptation. 
-#define alpha 0.5
+#define alpha 0.3
 
 #ifndef LONG
 #define LONG  
@@ -55,14 +61,14 @@ int main(){
     #if 1
     VEGAS<LD,Func,NDim,NBin,NBinInit> 
     Integral([](LD u[NDim], LD *retrn){ LD x=1+u[0]/(1-u[0]);  (*retrn)= std::exp(-1e-5*x)*std::sqrt(x*x-1)/(1-u[0])/(1-u[0]);},
-        NPoints,NBatches,NAdapts, AdaptPoints ,constK,alpha);
+        NPoints , NBatches , NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints, constK , alpha);
     
     LD res,sigma,R;
     R=Integral.Integrate( &res,&sigma );
 
     std::cout<<"Result= "<<  res <<" +/- "<<  sigma/res*100 <<"%" <<", with R="<< R<<std::endl;
 
-    // Integral.PrintGrid();
+    Integral.PrintGrid();
     // Integral.PartialIntegrals();
     // Integral.PrintWeights();
     #endif

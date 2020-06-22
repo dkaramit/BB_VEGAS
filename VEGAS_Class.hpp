@@ -21,7 +21,7 @@ class VEGAS{
     public:
         Func Integrand; //this is the function to be integrated
         
-        int NPoints,NBatches,NAdapts,AdaptPoints;
+        int NPoints, NBatches, NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints;
         // alpha is the exponent used to regulate the weights.
         // constK makes the difference between the large and small weights grater (provided is a large number).
         // See UpdateBins to see how it affects the regulated weights.
@@ -40,8 +40,10 @@ class VEGAS{
         std::uniform_int_distribution<> UnInt;
         std::uniform_int_distribution<> UnIntN;
 
+
         VEGAS( Func function, int NPoints, int NBatches, 
-        int NAdapts, int AdaptPoints, int constK=50, LD alpha=0.9);
+        int NAdapts, int AdaptPoints, int NAdaptSubDivs, int SubDivPoints, int constK=50, LD alpha=0.9);
+        
         ~VEGAS(){};
 
         //get a random point in [min,max]
