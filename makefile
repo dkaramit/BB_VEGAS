@@ -6,7 +6,10 @@ CC=g++
 LONG=long #set to long , in order to use long doubles
 
 # optimization level
+# OPT=O1
+# OPT=O2
 OPT=O3
+# OPT=Ofast
 
 FLG=  -std=c++17  -I "$(Path)" -lm -DLONG=$(LONG)  -$(OPT)
 

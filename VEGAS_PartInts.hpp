@@ -10,8 +10,8 @@
 
 VEGAS_Template
 LD VEGAS_Namespace::PartialIntegrals(int NB){
-    int NPoints=AdaptPoints;
-    if(NB != NBin){ NPoints=SubDivPoints; }
+    int Points=AdaptPoints;
+    if(NB != NBin){ Points=SubDivPoints; }
 
 
     LD FuncPoint, point[NDim];
@@ -20,7 +20,7 @@ LD VEGAS_Namespace::PartialIntegrals(int NB){
     LD AbsInt=0;
 
     // you get NPoints number of points
-    for(int np=0 ; np < NPoints ;++np){
+    for(int np=0 ; np < Points ;++np){
         
         // The contribution of each point is |f(x)|/p(x), and 1/p(x)=Nbins*binsize (you extract this information when you get the point). 
         inv_dist=1;
