@@ -6,18 +6,18 @@
 ![](https://img.shields.io/github/repo-size/dkaramit/BB_VEGAS?color=blue)
 
 
-A ```VEGAS``` Monte Carlo Integration project. As the name implies, it is just an implementation of the ```VEGAS``` algorithm introduced in [G. P. Lepage JOURNAL  OF COMPUTATIONAL A New Algorithm PHYSICS 27, 192-203 (1978)](https://www.sciencedirect.com/science/article/pii/0021999178900049?via%3Dihub).
+A ```VEGAS``` Monte Carlo Integration project. As the name implies, it is just an implementation of the ```VEGAS``` algorithm introduced in [G. P. Lepage JOURNAL  OF COMPUTATIONAL A New Algorithm PHYSICS 27, 192-203 (1978)](https://www.sciencedirect.com/science/article/pii/0021999178900049?via%3Dihub), with an additional  initial (optional) phase where the bins with the maximum contribution are subdivided.
 
 
-The idea is similar to [*NaBBODES*](https://dkaramit.github.io/NaBBODES), *i.e.* have a simple implementation ready, and allow the user to easily hack and modify the code to meet their needs.
+The idea is similar to [*NaBBODES*](https://dkaramit.github.io/NaBBODES), *i.e.*  a simple implementation where the user can easily hack and modify it to meet their needs.
 
 ---
-This project started in [*ASAP*](https://dkaramit.github.io/ASAP), which tries to make everything simple. Here we will be able to further develop ```VEGAS```. It would be useful to be able to  read the grid from a file, which would allow the user to define a custom  probability density function (pdf) and sample from it. This can be helpful since one can save the pdf from a previous evaluation of the integral.
+This project started in [*ASAP*](https://dkaramit.github.io/ASAP), where everything is made simple. Here, however, we will be able to further develop ```VEGAS```, using a bit more involved code. 
 
 ---
 ## To-do :
 - [X] Add subdivision phase.
-- [ ] Read and write grid on file.
+- [ ] Read and write grid.
 - [ ] Maybe better regularization of weights?
 
 That's it for now.
