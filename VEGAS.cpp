@@ -18,7 +18,7 @@
 #define NBin 100
 
 // number of points in each evaluation of the integral
-#define NPoints 2500
+#define NPoints 1500
 // number of batches (each batch calculates the integral using NPoints number of poins).
 #define NBatches 50
 

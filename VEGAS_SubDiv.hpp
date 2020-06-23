@@ -4,32 +4,31 @@
 
 // Starting with NBinInit number of bin, this function subdivides the grid 
 // until the number of bins reaches NBin.
-
-
 VEGAS_Template
 void VEGAS_Namespace::SubDivision(){
-    // auto it=weights[0].begin();
+
+    // we need an iterator to easily find the bin with the maximum weight
     typename std::vector<LD>::iterator it;
     int ind;
     LD mid;
 
-    for(int _ = NBinInit ; _<NBin ; _++){   
+    for(int bin = NBinInit ; bin<NBin ; bin++){   
         // calculate the weights
-        PartialIntegrals(_);
+        PartialIntegrals(bin);
         
-        // in each dimension, find the bin with the maximum weight, add a new point in the middle  
+        // in each dimension, find the bin with the maximum weight, and add a new point in the middle  
         //  of this bin. Then run UpdateBins to refine the new grid.
-        for (int i = 0; i < NDim; i++){
-            it=std::max_element(weights[i].begin() , weights[i].end());
-            ind=std::distance(weights[i].begin() , it );
-            mid=(Grid[i][ind]+Grid[i][ind+1])/2.;
+        for (int dim = 0; dim < NDim; dim++){
+            it=std::max_element(weights[dim].begin() , weights[dim].end());
+            ind=std::distance(weights[dim].begin() , it );
+            mid=(Grid[dim][ind]+Grid[dim][ind+1])/2.;
 
-            Grid[i].insert(Grid[i].begin()+ind+1,mid);
-            weights[i].insert(it,0);
+            Grid[dim].insert(Grid[dim].begin()+ind+1,mid);
+            weights[dim].insert(it,0);
         }
-        // UpdateBins(_+1);
-        // adapt the new grid NAdaptSubDivs times
-        for(int n_sub = 0; n_sub < NAdaptSubDivs ; ++n_sub){UpdateBins(_+1);}        
+
+        // refine the new grid NAdaptSubDivs times
+        for(int n_sub = 0; n_sub < NAdaptSubDivs ; ++n_sub){UpdateBins(bin+1);}        
     }
 }
 

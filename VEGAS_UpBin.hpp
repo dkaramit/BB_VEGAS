@@ -7,7 +7,7 @@ VEGAS_Template
 void VEGAS_Namespace::UpdateBins(int NB){
 
     LD AbsInt = PartialIntegrals(NB);
-    LD dx0,dxi;
+    LD dx0;
     LD binsizes[NB];
 
     LD w0;//This is a temporary variable to keep weights[dim][0]. Do this in order to be able to reset
@@ -33,7 +33,6 @@ void VEGAS_Namespace::UpdateBins(int NB){
             }
             dx0=1/dx0;
 
-            dxi=0;
             Grid[dim][0]=0; // this is true by default. But put it to be sure...
             for( int bin = 0 ; bin < NB ; ++bin)
             {

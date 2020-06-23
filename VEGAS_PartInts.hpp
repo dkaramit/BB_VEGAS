@@ -34,14 +34,14 @@ LD VEGAS_Namespace::PartialIntegrals(int NB){
             inv_dist*=NBin*(Grid[dim][bins[dim]+1] - Grid[dim][bins[dim]]);
         }
         Integrand( point , &FuncPoint );
-        AbsInt +=  fabs(FuncPoint) * inv_dist;
+        AbsInt +=  std::abs(FuncPoint) * inv_dist;
         
         // This is the partial integral ( in the bin of dim, and [0,1] for all other dims). 
         // In each bin of each dim you just sum the contribution |f|/p.
         // You don't double-count anything because the dimensions are independent.
         for(int dim = 0 ; dim < NDim ; ++dim)
         {
-            weights[dim][bins[dim]]+=fabs(FuncPoint) * inv_dist;
+            weights[dim][bins[dim]]+=std::abs(FuncPoint) * inv_dist;
         }
     }
     return AbsInt;
