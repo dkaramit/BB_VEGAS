@@ -2,6 +2,7 @@
 #define VEGAS_class
 
 // Just a thought: use different number of points for the wheights, and different for the integral.
+#include <algorithm>
 #include <vector>
 #include <iterator>
 #include <cmath>
