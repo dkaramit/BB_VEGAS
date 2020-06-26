@@ -104,11 +104,40 @@ void timeIntTot( ){
 }
 
 
+void timeRandom( ){
+    cout<<"========================Timing Random========================"<<endl;
+    auto start = Time::now();
+    auto finish = Time::now();
+    auto t0 = Time::now();
+    auto t1 = Time::now();
+    duration  dur;
+
+    VEGAS<LD,Func,NDim,NBin,NBin>  Int(f,NPoints , NBatches , NAdapts, AdaptPoints, 
+                                                NAdaptSubDivs, SubDivPoints, constK , alpha);
+
+
+    t0 = Time::now();
+
+    for (int i = 0; i < 10; i++){
+        start = Time::now();
+        for(int _=0 ; _<1e6;++_){Int.Random(0,1);}     
+        finish = Time::now();
+        dur = (finish - start);
+        cout<<"run: "<<i <<"  dt="<<dur.count()<<" s"  <<endl;
+    }
+    t1 = Time::now();
+    dur = t1-t0;
+    cout<< dur.count()  <<endl;
+}
+
+
+
 int main(){
     
-    timeSubDiv();
-    timeUpBin();
-    timeIntTot();
+    // timeSubDiv();
+    // timeUpBin();
+    // timeIntTot();
+    timeRandom();
 
 
 
