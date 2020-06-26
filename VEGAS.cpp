@@ -53,7 +53,7 @@ typedef std::function<void(LD u[NDim], LD *retrn)> Func;
 
 
 using std::cout;
-using std::end;
+using std::endl;
 
 // three test
 #define Bessel // result should around 10^10 
@@ -90,7 +90,7 @@ int main(){
     LD res,sigma,R;
     R=Integral.Integrate( &res,&sigma );
 
-    std::cout<<"Result= "<<  res <<" +/- "<<  sigma/res*100 <<"%" <<", with R="<< R<<std::endl;
+    cout<<"Result= "<<  res <<" +/- "<<  sigma/res*100 <<"%" <<", with R="<< R<<endl;
 
     // Integral.PrintGrid();
     // Integral.PartialIntegrals();
