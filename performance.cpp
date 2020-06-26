@@ -136,8 +136,8 @@ int main(){
     
     // timeSubDiv();
     // timeUpBin();
-    // timeIntTot();
-    timeRandom();
+    timeIntTot();
+    // timeRandom();
 
 
 
