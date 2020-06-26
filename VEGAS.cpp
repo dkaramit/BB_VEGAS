@@ -3,37 +3,27 @@
 #include<functional>
 #include"VEGAS.hpp"
 
-
-// This is an example on how to use VEGAS. It calculates the two 1D and one 10D integrals (see macros below).
-
-// test 1 (basically a bessel function) K_1(10^{-5})/10^{-5} 
-#define Bessel // result should around 10^10 
-
-// integral over a Gaussian function with a sharp peak at x=0.5
-#define Gauss // result should around 0.177
-
-// integral over a product of Gaussians with sharp peaks around x_i=0.1*i, for i=1,2..10.
-#define NDGauss // result should around 1.29 \times 10^{-8}
+// This show who to use VEGAS for  \int_1^\infty dx e^{-a x} \sqrt(x^2-1) = K_1(a)/a.
+// To transform this to the interval [0,1], use x=1+\dfrac{u}{1-u}.
 
 
 
-// Dimensions of integrals
-#define NDim1 1
-#define NDim2 10
+// Dimention of integral
+#define NDim 1
 
-// Initial number of bins (the same in every dimension)
-#define NBinInit 20
+// initial number of bins (the same in every dimention)
+#define NBinInit 25
 
-// Desired number of bins (run subdivision until NBin is reached)
+// desired number of bins (run subdivision until NBin is reached)
 #define NBin 100
 
-// Number of points in each evaluation of the integral
-#define NPoints 1000
-// Number of batches (each batch calculates the integral using NPoints number of poins).
+// number of points in each evaluation of the integral
+#define NPoints 1500
+// number of batches (each batch calculates the integral using NPoints number of poins).
 #define NBatches 50
 
 // Number of integrations to use to refine the grid
-#define NAdapts 20
+#define NAdapts 25
 // Number of points to use when refining the grid
 #define AdaptPoints 500
 
@@ -45,12 +35,12 @@
 // The constant that multiplies the regulated weights in the logarithm (you can take it to be ~1000).
 // the function that regulates the weights is different that what peaple use.
 //  K_const=0 implies no logarithmic term
-#define constK 3e2
+#define constK 1e1
 
 // The damping exponent. This regulates how fast the grid adapts. It should be in [0.2,2],
 // but I find that 0.5 usually works  given large enough NAdapts.
 // Large alpha destibilizes the adaptation, and small aplha results to slow adaptation. 
-#define alpha 0.3
+#define alpha 0.2
 
 #ifndef LONG
 #define LONG  
@@ -59,24 +49,23 @@
 #define LD LONG double
 
 // define the type of function to be used in VEGAS template
-using Func1=std::function<void(LD u[NDim1], LD *retrn)>; //function pointer for 1D integrals
-using Func2=std::function<void(LD u[NDim2], LD *retrn)>; //function pointer for 10D integrals
+typedef std::function<void(LD u[NDim], LD *retrn)> Func;
+
 
 using std::cout;
 using std::end;
 
-
-// you can do something like this. But seems pointless if you only have a few lines of code.
-// using VEGAS1D = VEGAS<LD,Func1,NDim1,NBin,NBinInit>;
-// using VEGAS10D = VEGAS<LD,Func2,NDim2,NBin,NBinInit>;
-
+// three test
+#define Bessel // result should around 10^10 
+#define Gauss // result should around 0.177
+#define NDGauss // result should around 1.29 \times 10^{-8}
 
 int main(){
 
     {
     #ifdef Bessel
-    VEGAS<LD,Func1,NDim1,NBin,NBinInit> 
-    Integral([](LD u[NDim1], LD *retrn){ LD x=1+u[0]/(1-u[0]);  (*retrn)= std::exp(-1e-5*x)*std::sqrt(x*x-1)/(1-u[0])/(1-u[0]);},
+    VEGAS<LD,Func,NDim,NBin,NBinInit> 
+    Integral([](LD u[NDim], LD *retrn){ LD x=1+u[0]/(1-u[0]);  (*retrn)= std::exp(-1e-5*x)*std::sqrt(x*x-1)/(1-u[0])/(1-u[0]);},
         NPoints , NBatches , NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints, constK , alpha);
     
     LD res,sigma,R;
@@ -94,8 +83,8 @@ int main(){
 
     {
     #ifdef Gauss
-    VEGAS<LD,Func1,NDim1,NBin,NBinInit> 
-    Integral([](LD x[NDim1], LD *retrn){  (*retrn)= std::exp(-100.*std::pow(x[0]-0.5,2)) ;},
+    VEGAS<LD,Func,NDim,NBin,NBinInit> 
+    Integral([](LD x[NDim], LD *retrn){  (*retrn)= std::exp(-100.*std::pow(x[0]-0.5,2)) ;},
         NPoints , NBatches , NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints, constK , alpha);
     
     LD res,sigma,R;
@@ -112,10 +101,11 @@ int main(){
 
     {
     #ifdef NDGauss
-    VEGAS<LD,Func2,NDim2,NBin,NBinInit> 
-    Integral([](LD x[NDim2], LD *retrn){  
+    const int ND=10;
+    VEGAS<LD,Func,ND,NBin,NBinInit> 
+    Integral([](LD x[ND], LD *retrn){  
         (*retrn)=1;
-        for (int i=0 ; i<NDim2 ; ++i)
+        for (int i=0 ; i<ND ; ++i)
         {
            (*retrn)*= std::exp(-100.*std::pow(x[i]-0.1*(i+1),2)) ;
         }
