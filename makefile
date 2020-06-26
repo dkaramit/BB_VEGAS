@@ -26,13 +26,13 @@ VEGAS.run: VEGAS.cpp VEGAS.hpp VEGAS_CalcWeights.hpp VEGAS_Int.hpp VEGAS_Rnd.hpp
 
 
 
-performance: performance.cpp params.hpp VEGAS.hpp VEGAS_CalcWeights.hpp VEGAS_Int.hpp VEGAS_Rnd.hpp\
+performance.run: performance.cpp params.hpp VEGAS.hpp VEGAS_CalcWeights.hpp VEGAS_Int.hpp VEGAS_Rnd.hpp\
 		   VEGAS_Aux.hpp VEGAS_Class.hpp VEGAS_IntTot.hpp VEGAS_SubDiv.hpp VEGAS_Batch.hpp\
 		   VEGAS_Const.hpp VEGAS_PartInts.hpp VEGAS_UpBin.hpp makefile
 
-	$(CC) -Wall -o "$(Path)/performance" "$(Path)/performance.cpp" $(FLG) 
+	$(CC) -Wall -o "$(Path)/performance.run" "$(Path)/performance.cpp" $(FLG) 
 
 
 clean:
 	@[ -f "$(Path)/VEGAS.run" ] && rm "$(Path)/VEGAS.run" || true
-	@[ -f "$(Path)/performance" ] && rm "$(Path)/performance" || true
+	@[ -f "$(Path)/performance.run" ] && rm "$(Path)/performance.run" || true
