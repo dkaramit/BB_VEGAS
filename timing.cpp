@@ -188,10 +188,10 @@ void timeRandomVEGAS( ){
 
     for (int i = 0; i < 10; i++){
         start = Time::now();
-        for(int _=0 ; _<1e6;++_){Int.Random(0,1);}     
+        for(int _=0 ; _<5;++_){cout<<Int.Random(0,1)<<" ";}     
         finish = Time::now();
         dur = (finish - start);
-        cout<<"run: "<<i <<"  dt="<<dur.count()<<" s"  <<endl;
+        cout<<endl<<"run: "<<i <<"  dt="<<dur.count()<<" s"  <<endl;
     }
     t1 = Time::now();
     dur = t1-t0;
@@ -244,7 +244,7 @@ int main(){
     // timeUpBin();
     // timeIntTot();
     timeRandomVEGAS();
-    timeRandom();
+    // timeRandom();
 
 
 

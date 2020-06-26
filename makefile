@@ -34,3 +34,4 @@ timing.run: timing.cpp VEGAS.hpp VEGAS_CalcWeights.hpp VEGAS_Int.hpp VEGAS_Rnd.h
 
 clean:
 	@[ -f "$(Path)/VEGAS.run" ] && rm "$(Path)/VEGAS.run" || true
+	@[ -f "$(Path)/timing.run" ] && rm "$(Path)/timing.run" || true
