@@ -63,7 +63,7 @@ using Func1=std::function<void(LD u[NDim1], LD *retrn)>; //function pointer for 
 using Func2=std::function<void(LD u[NDim2], LD *retrn)>; //function pointer for 10D integrals
 
 using std::cout;
-using std::end;
+using std::endl;
 
 
 // you can do something like this. But seems pointless if you only have a few lines of code.
