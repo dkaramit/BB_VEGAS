@@ -9,16 +9,14 @@
 
 VEGAS_Template
 LD VEGAS_Namespace::Random(LD min, LD max){
-    // RndE.seed(RndDiv () );
-    // return (UnDist( RndE )*(max - min) + min ) ;
-    return 0;
+    RndE.seed(RndDiv () );
+    return (UnDist( RndE )*(max - min) + min ) ;
 }
 
 VEGAS_Template
 int VEGAS_Namespace::RandomBin(){
-    // RndE.seed( RndDiv () );
-    // return UnInt(RndE);
-    return 0;
+    RndE.seed( RndDiv () );
+    return UnInt(RndE);
 }
 
 // get random integer from 0 to NB

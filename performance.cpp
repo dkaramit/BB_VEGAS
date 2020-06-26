@@ -104,8 +104,8 @@ void timeIntTot( ){
 }
 
 
-void timeRandom( ){
-    cout<<"========================Timing Random========================"<<endl;
+void timeRandomVEGAS( ){
+    cout<<"========================Timing Random from VEGAS========================"<<endl;
     auto start = Time::now();
     auto finish = Time::now();
     auto t0 = Time::now();
@@ -130,14 +130,47 @@ void timeRandom( ){
     cout<< dur.count()  <<endl;
 }
 
+void timeRandom( ){
+    cout<<"========================Timing Random========================"<<endl;
+    auto start = Time::now();
+    auto finish = Time::now();
+    auto t0 = Time::now();
+    auto t1 = Time::now();
+    duration  dur;
+
+    std::random_device RndDiv;
+    std::default_random_engine RndE;
+    std::uniform_real_distribution<LD> UnDist;
+    
+
+    t0 = Time::now();
+
+    for (int i = 0; i < 10; i++){
+        start = Time::now();
+        for(int _=0 ; _<1e6;++_){UnDist( RndE );}     
+        finish = Time::now();
+        dur = (finish - start);
+        cout<<"random. dt="<<dur.count()<<" s"  <<"\t\t\t";
+        
+        start = Time::now();
+        for(int _=0 ; _<1e6;++_){RndE.seed(RndDiv () );}     
+        finish = Time::now();
+        dur = (finish - start);
+        cout<<"seed. dt="<<dur.count()<<" s"  <<endl;
+    }
+    t1 = Time::now();
+    dur = t1-t0;
+    cout<< dur.count()  <<endl;
+}
 
 
 int main(){
     
     // timeSubDiv();
     // timeUpBin();
-    timeIntTot();
-    // timeRandom();
+    // timeIntTot();
+    timeRandomVEGAS();
+    timeRandom();
 
 
 
