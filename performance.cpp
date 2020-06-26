@@ -150,13 +150,19 @@ void timeRandom( ){
         for(int _=0 ; _<1e6;++_){UnDist( RndE );}     
         finish = Time::now();
         dur = (finish - start);
-        cout<<"random. dt="<<dur.count()<<" s"  <<"\t\t\t";
+        cout<<"random. dt="<<dur.count()<<" s"  <<"\t";
         
         start = Time::now();
         for(int _=0 ; _<1e6;++_){RndE.seed(RndDiv () );}     
         finish = Time::now();
         dur = (finish - start);
-        cout<<"seed. dt="<<dur.count()<<" s"  <<endl;
+        cout<<"seed. dt="<<dur.count()<<" s"  <<"\t";
+
+        start = Time::now();
+        for(int _=0 ; _<1e6;++_){RndDiv() ;}     
+        finish = Time::now();
+        dur = (finish - start);
+        cout<<"divice. dt="<<dur.count()<<" s"  <<endl;
     }
     t1 = Time::now();
     dur = t1-t0;
