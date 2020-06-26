@@ -1,22 +1,25 @@
 #ifndef VEGAS_class
 #define VEGAS_class
 
-#include <algorithm>
+#include <cmath>
 #include <vector>
 #include <iterator>
-#include <cmath>
+#include <algorithm>
+#include<random>
+
 // define some macros to avoid copy-paste of the same thing again and again:
 // Func is a function type
 // NDim the number of dimensions
 // NBin the number of bins
 // NBinInit the number of intial bins (if NBinInit ~= NBin, run subdivision until the number of buns is NBin)
-#define VEGAS_Template template<class LD, class Func, int NDim, int NBin, int NBinInit>
-#define VEGAS_Namespace VEGAS<LD,Func,NDim,NBin,NBinInit>
+// RandEn the random engine. This is optional, since I use a std::mt19937_64 as default
+#define VEGAS_Template template<class LD, class Func, int NDim, int NBin, int NBinInit, class RandEn>
+#define VEGAS_Namespace VEGAS<LD,Func,NDim,NBin,NBinInit,RandEn>
 
 
 
-//Pass Dimention and number of bins in template, to make the code clearer (I think its faster than using new).   
-VEGAS_Template
+//Pass Dimension and number of bins in template, to make the code clearer (I think its faster than using new).   
+template<class LD, class Func, int NDim, int NBin, int NBinInit, class RandEn=std::mt19937_64>
 class VEGAS{
     public:
         Func Integrand; //this is the function to be integrated
@@ -34,8 +37,7 @@ class VEGAS{
         // allow for the bins to be dynamically allocated (Grid and weights are arrays of vectors)
         typename std::vector<LD> Grid[NDim],weights[NDim];
 
-        std::random_device RndDiv;
-        std::default_random_engine RndE1,RndE2,RndE3;
+        RandEn RndE;
 
 
         VEGAS( Func function, int NPoints, int NBatches, 

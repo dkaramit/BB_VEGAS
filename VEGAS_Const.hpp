@@ -29,10 +29,9 @@ VEGAS_Namespace::VEGAS( Func function, int NPoints, int NBatches,
     }
 
 
-    // theed the random engines
-    RndE1.seed(RndDiv () );
-    RndE2.seed(RndDiv () );
-    RndE3.seed(RndDiv () );
+    // seed the random engine
+    std::random_device RndDiv;
+    RndE.seed(RndDiv());
 
 
 

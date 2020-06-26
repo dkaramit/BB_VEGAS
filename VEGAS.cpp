@@ -1,6 +1,7 @@
 #include<iostream>
 #include<cmath>
 #include<functional>
+#include<chrono>
 #include"VEGAS.hpp"
 
 // three tests
@@ -43,6 +44,20 @@
 // Large alpha destibilizes the adaptation, and small aplha results to slow adaptation. 
 #define alpha 0.2
 
+
+// For the random engine (last optional template argument og VEGAS) 
+// you can use other engines provided by <random>, such as 
+// std::minstd_rand
+// std::mt19937 
+// std::mt19937_64 
+// std::ranlux48 
+
+
+
+
+
+
+
 #ifndef LONG
 #define LONG  
 #endif
@@ -53,12 +68,16 @@
 typedef std::function<void(LD u[NDim], LD *retrn)> Func;
 
 
+
 using std::cout;
 using std::endl;
 
+using Clock= std::chrono::high_resolution_clock;
+using Dur = std::chrono::duration<long double>;
 
 int main(){
 
+    auto t0=Clock::now(); 
     {
     #ifdef Bessel
     VEGAS<LD,Func,NDim,NBin,NBinInit> 
@@ -68,16 +87,16 @@ int main(){
     LD res,sigma,R;
     R=Integral.Integrate( &res,&sigma );
 
-    std::cout<<"Result= "<<  res <<" +/- "<<  sigma/res*100 <<"%" <<", with R="<< R<<std::endl;
+    cout<<"Result= "<<  res <<" +/- "<<  sigma/res*100 <<"%" <<", with R="<< R <<endl;
 
     // Integral.PrintGrid();
     // Integral.PartialIntegrals();
     // Integral.PrintWeights();
     #endif
     }
+    cout<<"Integration took: "<<Dur(Clock::now()-t0).count()<<" sec"<<endl;
 
-
-
+    t0=Clock::now();    
     {
     #ifdef Gauss
     VEGAS<LD,Func,NDim,NBin,NBinInit> 
@@ -94,8 +113,11 @@ int main(){
     // Integral.PrintWeights();
     #endif
     }
+    cout<<"Integration took: "<<Dur(Clock::now()-t0).count()<<" sec"<<endl;
 
 
+
+    t0=Clock::now();    
     {
     #ifdef NDGauss
     const int ND=10;
@@ -114,13 +136,14 @@ int main(){
     LD res,sigma,R;
     R=Integral.Integrate( &res,&sigma );
 
-    std::cout<<"Result= "<<  res <<" +/- "<<  sigma/res*100 <<"%" <<", with R="<< R<<std::endl;
+    cout<<"Result= "<<  res <<" +/- "<<  sigma/res*100 <<"%" <<", with R="<< R<<endl;
 
     // Integral.PrintGrid();
     // Integral.PartialIntegrals();
     // Integral.PrintWeights();
     #endif
     }
+    cout<<"Integration took: "<<Dur(Clock::now()-t0).count()<<" sec"<<endl;
 
 
 
