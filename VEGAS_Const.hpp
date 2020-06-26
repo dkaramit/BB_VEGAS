@@ -29,10 +29,10 @@ VEGAS_Namespace::VEGAS( Func function, int NPoints, int NBatches,
     }
 
 
-    // This is the distribution that gets random bin
-    std::uniform_int_distribution<> _UnInt(0, NBin-1);
-    this-> UnInt =_UnInt;
-
+    // theed the random engines
+    RndE1.seed(RndDiv () );
+    RndE2.seed(RndDiv () );
+    RndE3.seed(RndDiv () );
 
 
 

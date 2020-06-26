@@ -9,24 +9,23 @@
 
 VEGAS_Template
 LD VEGAS_Namespace::Random(LD min, LD max){
-    RndE.seed(RndDiv () );
-    return (UnDist( RndE )*(max - min) + min ) ;
+    std::uniform_real_distribution<LD> UnDist;
+    
+    return (UnDist( RndE1 )*(max - min) + min ) ;
 }
 
 VEGAS_Template
 int VEGAS_Namespace::RandomBin(){
-    RndE.seed( RndDiv () );
-    return UnInt(RndE);
+    std::uniform_int_distribution<> UnInt(0, NBin-1);
+    return UnInt(RndE2);
 }
 
 // get random integer from 0 to NB
 VEGAS_Template
 int VEGAS_Namespace::RandomBin(int NB){
-    std::uniform_int_distribution<> _UnInt(0, NB-1);
-    this-> UnIntN =_UnInt;
+    std::uniform_int_distribution<> UnInt(0, NB-1);
 
-    RndE.seed( RndDiv () );
-    return _UnInt(RndE);
+    return UnInt(RndE3);
 }
 
 #endif

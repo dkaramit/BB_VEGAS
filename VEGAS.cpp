@@ -3,12 +3,13 @@
 #include<functional>
 #include"VEGAS.hpp"
 
-// This show who to use VEGAS for  \int_1^\infty dx e^{-a x} \sqrt(x^2-1) = K_1(a)/a.
-// To transform this to the interval [0,1], use x=1+\dfrac{u}{1-u}.
+// three tests
+#define Bessel // result should around 10^10 
+#define Gauss // result should around 0.177
+#define NDGauss // result should around 1.29 \times 10^{-8}
 
 
-
-// Dimention of integral
+// Dimention of integral (the first two examples)
 #define NDim 1
 
 // initial number of bins (the same in every dimention)
@@ -55,10 +56,6 @@ typedef std::function<void(LD u[NDim], LD *retrn)> Func;
 using std::cout;
 using std::endl;
 
-// three test
-#define Bessel // result should around 10^10 
-#define Gauss // result should around 0.177
-#define NDGauss // result should around 1.29 \times 10^{-8}
 
 int main(){
 

@@ -35,10 +35,7 @@ class VEGAS{
         typename std::vector<LD> Grid[NDim],weights[NDim];
 
         std::random_device RndDiv;
-        std::default_random_engine RndE;
-        std::uniform_real_distribution<LD> UnDist;
-        std::uniform_int_distribution<> UnInt;
-        std::uniform_int_distribution<> UnIntN;
+        std::default_random_engine RndE1,RndE2,RndE3;
 
 
         VEGAS( Func function, int NPoints, int NBatches, 
