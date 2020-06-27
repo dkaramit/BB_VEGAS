@@ -9,8 +9,8 @@
 
 VEGAS_Template
 LD VEGAS_Namespace::Random(LD min, LD max){
-    std::uniform_real_distribution<LD> UnDist;
-    return ( UnDist(RndE)*(max - min) + min ) ;
+    std::uniform_real_distribution<LD> UnDist(min,max);
+    return UnDist(RndE) ;
 }
 
 VEGAS_Template
