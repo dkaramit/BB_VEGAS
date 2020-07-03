@@ -41,7 +41,7 @@ class VEGAS{
 
 
         VEGAS( Func function, int NPoints, int NBatches, 
-        int NAdapts, int AdaptPoints, int NAdaptSubDivs, int SubDivPoints, int constK=50, LD alpha=0.9);
+        int NAdapts, int AdaptPoints, int NAdaptSubDivs, int SubDivPoints, LD constK=50., LD alpha=0.9);
         
         ~VEGAS(){};
 

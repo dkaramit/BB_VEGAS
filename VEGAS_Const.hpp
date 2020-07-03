@@ -5,7 +5,7 @@
 
 VEGAS_Template
 VEGAS_Namespace::VEGAS( Func function, int NPoints, int NBatches, 
-        int NAdapts, int AdaptPoints, int NAdaptSubDivs, int SubDivPoints, int constK, LD alpha){
+        int NAdapts, int AdaptPoints, int NAdaptSubDivs, int SubDivPoints, LD constK, LD alpha){
     this->Integrand = function;
     this->NPoints = NPoints;
     this->NBatches = NBatches;
