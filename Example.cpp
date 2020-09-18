@@ -33,7 +33,6 @@ class Timer{
         dt = finish - start;
         std::cout<<"dt="<<dt.count();
     };
-
 };
 
 
@@ -67,11 +66,16 @@ int main(){
         {
             Timer _;// the timer will print the duration at the end of this scope
             // Remeber that you can use "named" parameters (clearer what you pass). 
-            vegas VIntegral {.function = integrand,
-                            .NPoints = 300, .NBatches = 100, 
-                            .NAdapts = 5, .AdaptPoints = 300, 
-                            .NAdaptSubDivs = 5, .SubDivPoints = 300, 
-                            .constK = 0.1, .alpha = 0.3};
+            vegas VIntegral{integrand,300,100,5,300,5,300,0.1,0.3};
+            
+            //you could do something like the following, but it doesn't work on mac... 
+            // vegas VIntegral {.function = integrand,
+            //                 .NPoints = 300, .NBatches = 100, 
+            //                 .NAdapts = 5, .AdaptPoints = 300, 
+            //                 .NAdaptSubDivs = 5, .SubDivPoints = 300, 
+            //                 .constK = 0.1, .alpha = 0.3};
+
+
             R=VIntegral.Integrate(&result,&err);
             std::cout<<std::setprecision(8);
             std::cout.width(2);
@@ -88,11 +92,8 @@ int main(){
             // since the number of bins are set to 1,  NAdapts, NAdaptSubDivs, etc. should not play ant role,
             // but it's clearer if we put them to 0.
             // This choice gives consistent results (still with higher error), but much slower.
-            plain PIntegral {.function = integrand,
-                            .NPoints = 2000, .NBatches = 200, 
-                            .NAdapts = 0, .AdaptPoints = 0, 
-                            .NAdaptSubDivs = 0, .SubDivPoints = 0, 
-                            .constK = 0., .alpha = 0.};
+            plain PIntegral {integrand, 2000,200, 0,0, 0, 0, 0., 0.};
+
             R=PIntegral.Integrate(&result,&err);
             std::cout<<std::setprecision(8);
             std::cout.width(2);
@@ -102,7 +103,6 @@ int main(){
             std::cout.width(2);
             std::cout<<std::right<<"R="<<R<<"\t";
         }
-        
         std::cout<<std::endl;
     }
 

@@ -128,8 +128,6 @@ int main(){
         {
            (*retrn)*= std::exp(-100.*std::pow(x[i]-0.1*(i+1),2)) ;
         }
-        
-        
         },
         NPoints , NBatches , NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints, constK , alpha);
     
