@@ -11,7 +11,7 @@ A ```VEGAS``` Monte Carlo Integration project. As the name implies, it is just a
 
 ---
 
-This project started in [*ASAP*](https://dkaramit.github.io/ASAP), where everything is made simple. So explanation on how the algorithm works can be found there.
+This project started in the [*ASAP*](https://dkaramit.github.io/ASAP) project, where everything is made simple. Explanations on how the algorithm works can be found there. Examples on how to use the code, though, are given here.
 
 ---
 ## To-do :
