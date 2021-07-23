@@ -38,8 +38,13 @@ SimpleExample.run: SimpleExample.cpp VEGAS.hpp VEGAS_CalcWeights.hpp VEGAS_Int.h
 
 	$(CC) -Wall -o "$(Path)/SimpleExample.run" "$(Path)/SimpleExample.cpp" $(FLG) 
 
+FunctorExample.run: FunctorExample.cpp VEGAS.hpp VEGAS_CalcWeights.hpp VEGAS_Int.hpp VEGAS_Rnd.hpp\
+		   VEGAS_Aux.hpp VEGAS_Class.hpp VEGAS_IntTot.hpp VEGAS_SubDiv.hpp VEGAS_Batch.hpp\
+		   VEGAS_Const.hpp VEGAS_PartInts.hpp VEGAS_UpBin.hpp makefile
+
+
+	$(CC) -Wall -o "$(Path)/FunctorExample.run" "$(Path)/FunctorExample.cpp" $(FLG) 
+
 
 clean:
-	@[ -f "$(Path)/VEGAS.run" ] && rm "$(Path)/VEGAS.run" || true
-	@[ -f "$(Path)/Example.run" ] && rm "$(Path)/Example.run" || true
-	@[ -f "$(Path)/SimpleExample.run" ] && rm "$(Path)/SimpleExample.run" || true
+	rm -f *.run
