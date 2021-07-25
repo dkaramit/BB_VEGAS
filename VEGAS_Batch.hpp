@@ -8,8 +8,8 @@
 // G. PETER LEPAGE JOURNAL  OF COMPUTATIONAL A New Algorithm PHYSICS 27, 192-203 (1978)
 // Seems to wotk fine!
 
-VEGAS_Template
-LD VEGAS_Namespace::IntegrateBatch(LD *IntMean, LD *IntSigma   ){
+template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
+LD VEGAS<LD,NDim,NBin,NBinInit,RandEn>::IntegrateBatch(LD *IntMean, LD *IntSigma   ){
     
     LD SumI3Var=0; //To get Sum_b I^3/\sigma^2
     LD SumI2Var=0; //To get Sum_b I^2/\sigma^2

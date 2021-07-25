@@ -1,10 +1,7 @@
 /*Another example on how to use VEGAS*/
-
-
 #include<iostream>
 #include<iomanip>
 #include<cmath>
-#include<functional>
 #include<chrono>
 #include"VEGAS.hpp"
 
@@ -43,11 +40,9 @@ void integrand(LD x[NDim], LD *retrn){
     *retrn = std::exp(-1e5*std::pow(x[0]-0.5,2)) ;
 } 
 
-// function pointer
-using Func = std::function<void(LD x[NDim], LD *retrn)> ;
 // the two settings we'll comare
-using vegas = VEGAS<LD,Func,NDim,50,25>;
-using plain = VEGAS<LD,Func,NDim,1,1>; // this is basically a plain Monte Carlo 
+using vegas = VEGAS<LD,NDim,50,25>;
+using plain = VEGAS<LD,NDim,1,1>; // this is basically a plain Monte Carlo 
 
 int main(){
     

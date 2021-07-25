@@ -13,7 +13,7 @@ OPT=O3
 
 FLG=  -std=c++17  -I "$(Path)" -lm -DLONG=$(LONG)  -$(OPT)
 
-all: VEGAS.run SimpleExample.run Example.run
+all: VEGAS.run SimpleExample.run Example.run FunctorExample.run
 
 
 VEGAS.run: VEGAS.cpp VEGAS.hpp VEGAS_CalcWeights.hpp VEGAS_Int.hpp VEGAS_Rnd.hpp\

@@ -7,8 +7,8 @@
 // Define functions that help with getting some feedback for the Grid
 
 
-VEGAS_Template
-void VEGAS_Namespace::PrintGrid(){
+template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
+void VEGAS<LD,NDim,NBin,NBinInit,RandEn>::PrintGrid(){
     for( int dim=0 ; dim<NDim ; ++dim ){
         for( auto _G: this->Grid[dim] ){
             std::cout<<_G<<" ";
@@ -19,8 +19,8 @@ void VEGAS_Namespace::PrintGrid(){
 
 
 
-VEGAS_Template
-void VEGAS_Namespace::PrintGrid(int dim){
+template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
+void VEGAS<LD,NDim,NBin,NBinInit,RandEn>::PrintGrid(int dim){
     for( auto _G: this->Grid[dim] ){
             std::cout<<_G<<" ";
     }
@@ -28,8 +28,8 @@ void VEGAS_Namespace::PrintGrid(int dim){
 }
 
 
-VEGAS_Template
-void VEGAS_Namespace::PrintWeights(){
+template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
+void VEGAS<LD,NDim,NBin,NBinInit,RandEn>::PrintWeights(){
     for( int dim=0 ; dim<NDim ; ++dim ){
         for( auto _w: this->weights[dim] ){
             std::cout<<_w<<" ";

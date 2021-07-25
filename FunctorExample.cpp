@@ -1,6 +1,5 @@
 #include<iostream>
 #include<cmath>
-#include<functional>
 #include"VEGAS.hpp"
 
 
@@ -50,8 +49,7 @@ using std::cout;
 using std::endl;
 
 
-/*Since std::function can be any collable object, we can do this*/
-typedef std::function<void(double u[NDim], double *retrn)> Func;
+/*Since VEGAS takes std::function, the integrand can be any collable object. That is, we can do this*/
 
 class integrand{
     public:
@@ -66,7 +64,7 @@ class integrand{
 int main(){
     integrand f(10);/*f is callable, and can be passed to VEGAS*/
 
-    VEGAS<double,Func,NDim,NBin,NBinInit> Integral(f,
+    VEGAS<double,NDim,NBin,NBinInit> Integral(f,
     NPoints , NBatches , NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints, constK , alpha);
 
     double result, err,R;

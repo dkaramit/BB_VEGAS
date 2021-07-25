@@ -1,6 +1,5 @@
 #include<iostream>
 #include<cmath>
-#include<functional>
 #include"VEGAS.hpp"
 
 
@@ -51,7 +50,6 @@ using std::endl;
 
 
 
-typedef std::function<void(double u[NDim], double *retrn)> Func;
 
 void integrand(double u[NDim], double *retrn) {
     *retrn = u[0]+u[1]*u[2];
@@ -59,7 +57,7 @@ void integrand(double u[NDim], double *retrn) {
 
 
 int main(){
-    VEGAS<double,Func,NDim,NBin,NBinInit> Integral(integrand,
+    VEGAS<double,NDim,NBin,NBinInit> Integral(integrand,
     NPoints , NBatches , NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints, constK , alpha);
 
     double result, err,R;

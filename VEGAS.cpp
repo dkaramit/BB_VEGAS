@@ -1,6 +1,5 @@
 #include<iostream>
 #include<cmath>
-#include<functional>
 #include<chrono>
 #include"VEGAS.hpp"
 
@@ -64,11 +63,6 @@
 
 #define LD LONG double
 
-// define the type of function to be used in VEGAS template
-typedef std::function<void(LD u[NDim], LD *retrn)> Func;
-
-
-
 using std::cout;
 using std::endl;
 
@@ -80,7 +74,7 @@ int main(){
     auto t0=Clock::now(); 
     {
     #ifdef Bessel
-    VEGAS<LD,Func,NDim,NBin,NBinInit> 
+    VEGAS<LD,NDim,NBin,NBinInit> 
     Integral([](LD u[NDim], LD *retrn){ LD x=1+u[0]/(1-u[0]);  (*retrn)= std::exp(-1e-5*x)*std::sqrt(x*x-1)/(1-u[0])/(1-u[0]);},
         NPoints , NBatches , NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints, constK , alpha);
     
@@ -99,7 +93,7 @@ int main(){
     t0=Clock::now();    
     {
     #ifdef Gauss
-    VEGAS<LD,Func,NDim,NBin,NBinInit> 
+    VEGAS<LD,NDim,NBin,NBinInit> 
     Integral([](LD x[NDim], LD *retrn){  (*retrn)= std::exp(-100.*std::pow(x[0]-0.5,2)) ;},
         NPoints , NBatches , NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints, constK , alpha);
     
@@ -121,7 +115,7 @@ int main(){
     {
     #ifdef NDGauss
     const int ND=10;
-    VEGAS<LD,Func,ND,NBin,NBinInit> 
+    VEGAS<LD,ND,NBin,NBinInit> 
     Integral([](LD x[ND], LD *retrn){  
         (*retrn)=1;
         for (int i=0 ; i<ND ; ++i)

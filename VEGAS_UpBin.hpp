@@ -3,8 +3,8 @@
 #include"VEGAS.hpp"
 
 
-VEGAS_Template
-void VEGAS_Namespace::UpdateBins(int NB){
+template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
+void VEGAS<LD,NDim,NBin,NBinInit,RandEn>::UpdateBins(int NB){
 
     LD AbsInt = PartialIntegrals(NB);
     LD dx0;

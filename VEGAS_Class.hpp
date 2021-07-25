@@ -6,21 +6,20 @@
 #include <iterator>
 #include <algorithm>
 #include<random>
+#include<functional>
 
 // define some macros to avoid copy-paste of the same thing again and again:
-// Func is a function type
 // NDim the number of dimensions
 // NBin the number of bins
 // NBinInit the number of intial bins (if NBinInit ~= NBin, run subdivision until the number of buns is NBin)
 // RandEn the random engine. This is optional, since I use a std::mt19937_64 as default
-#define VEGAS_Template template<class LD, class Func, int NDim, int NBin, int NBinInit, class RandEn>
-#define VEGAS_Namespace VEGAS<LD,Func,NDim,NBin,NBinInit,RandEn>
 
 
 
 //Pass Dimension and number of bins in template, to make the code clearer (I think its faster than using new).   
-template<class LD, class Func, int NDim, int NBin, int NBinInit, class RandEn=std::mt19937_64>
+template<class LD, int NDim, int NBin, int NBinInit, class RandEn=std::mt19937_64>
 class VEGAS{
+    using Func = std::function<void(LD u[NDim], LD *retrn)>;
     public:
         Func Integrand; //this is the function to be integrated
         

@@ -8,8 +8,8 @@
 
 // Calsulate the weights. Basically, you calculate int_{0}^{1} |f|, and as you sample you can also 
 // get the partial integrals (since you know in which bin is each point). 
-VEGAS_Template
-LD VEGAS_Namespace::CalculateWeights(int NB){
+template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
+LD VEGAS<LD,NDim,NBin,NBinInit,RandEn>::CalculateWeights(int NB){
     LD FuncPoint, point[NDim];
     int bins[NDim];
     LD inv_dist;
@@ -56,8 +56,8 @@ LD VEGAS_Namespace::CalculateWeights(int NB){
 }
 
 
-VEGAS_Template
-void VEGAS_Namespace::CheckWeights(int NB){
+template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
+void VEGAS<LD,NDim,NBin,NBinInit,RandEn>::CheckWeights(int NB){
     LD tmp;
 
         for(int dim = 0 ; dim < NDim ; ++dim)

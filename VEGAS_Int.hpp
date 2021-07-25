@@ -3,8 +3,8 @@
 #include"VEGAS.hpp"
 
 
-VEGAS_Template
-LD VEGAS_Namespace::Integrate(LD *IntMean, LD *IntSigma   ){
+template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
+LD VEGAS<LD,NDim,NBin,NBinInit,RandEn>::Integrate(LD *IntMean, LD *IntSigma   ){
 
     if(NBin!=NBinInit){SubDivision();}
 

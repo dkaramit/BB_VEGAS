@@ -7,21 +7,21 @@
 // You can define your own here! 
 
 
-VEGAS_Template
-LD VEGAS_Namespace::Random(LD min, LD max){
+template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
+LD VEGAS<LD,NDim,NBin,NBinInit,RandEn>::Random(LD min, LD max){
     std::uniform_real_distribution<LD> UnDist(min,max);
     return UnDist(RndE) ;
 }
 
-VEGAS_Template
-int VEGAS_Namespace::RandomBin(){
+template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
+int VEGAS<LD,NDim,NBin,NBinInit,RandEn>::RandomBin(){
     std::uniform_int_distribution<> UnInt(0, NBin-1);
     return UnInt(RndE);
 }
 
 // get random integer from 0 to NB
-VEGAS_Template
-int VEGAS_Namespace::RandomBin(int NB){
+template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
+int VEGAS<LD,NDim,NBin,NBinInit,RandEn>::RandomBin(int NB){
     std::uniform_int_distribution<> UnInt(0, NB-1);
 
     return UnInt(RndE);
