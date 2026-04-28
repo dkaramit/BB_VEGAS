@@ -23,7 +23,7 @@
 #define AdaptPoints 500
 
 // Number of refinement during subdivision phase
-#define NAdaptSubDivs 5
+#define NAdaptSubDivs 1
 // Number of points to use during the subdivision phase 
 #define SubDivPoints 500
 
