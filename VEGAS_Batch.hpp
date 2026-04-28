@@ -1,6 +1,6 @@
 #ifndef VEGAS_IntBatch
 #define VEGAS_IntBatch
-#include"VEGAS.hpp"
+#include"VEGAS_IntTot.hpp"
 
 
 // Integrate using batches. 

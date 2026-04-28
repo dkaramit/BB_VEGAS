@@ -1,6 +1,6 @@
 #ifndef VEGAS_Rand
 #define VEGAS_Rand
-#include"VEGAS.hpp"
+#include"VEGAS_Class.hpp"
 
 
 //This defines a function that retunrs random numbers in the range [min,max].

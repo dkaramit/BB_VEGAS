@@ -1,6 +1,6 @@
 #ifndef VEGAS_aux
 #define VEGAS_aux
-#include"VEGAS.hpp"
+#include"VEGAS_Class.hpp"
 
 
 

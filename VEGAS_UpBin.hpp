@@ -1,6 +1,7 @@
 #ifndef VEGAS_UpBin
 #define VEGAS_UpBin
-#include"VEGAS.hpp"
+#include"VEGAS_Class.hpp"
+#include"VEGAS_PartInts.hpp"
 
 
 template<class LD, int NDim, int NBin, int NBinInit, class RandEn>

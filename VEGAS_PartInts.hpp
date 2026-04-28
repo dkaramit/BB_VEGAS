@@ -1,6 +1,7 @@
 #ifndef VEGAS_PartInts
 #define VEGAS_PartInts
-#include"VEGAS.hpp"
+#include"VEGAS_Class.hpp"
+#include"VEGAS_Rnd.hpp"
 
 
 

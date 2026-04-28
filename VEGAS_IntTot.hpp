@@ -1,6 +1,7 @@
 #ifndef VEGAS_IntTot
 #define VEGAS_IntTot
-#include"VEGAS.hpp"
+#include"VEGAS_Class.hpp"
+#include"VEGAS_Rnd.hpp"
 
 
 // I take the total integral as follows.

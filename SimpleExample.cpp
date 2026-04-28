@@ -60,11 +60,10 @@ int main(){
     VEGAS<double,NDim,NBin,NBinInit> Integral(integrand,
     NPoints , NBatches , NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints, constK , alpha);
 
-    // double result, err,R;
+    double result, err,R;
 
-    // R=Integral.Integrate(&result,&err);
-    // cout<<"I= "<<result<<" +/- "<<err<<" R= "<<R<<endl;
-    Integral.SubDivision();
+    R=Integral.Integrate(&result,&err);
+    cout<<"I= "<<result<<" +/- "<<err<<" R= "<<R<<endl;
 
     return 0;
 }

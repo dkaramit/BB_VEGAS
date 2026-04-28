@@ -1,6 +1,7 @@
 #ifndef VEGAS_CalcWeights
 #define VEGAS_CalcWeights
-#include"VEGAS.hpp"
+#include"VEGAS_Class.hpp"
+#include"VEGAS_Rnd.hpp"
 // this only helps to check and make sure that the weights are ok. In the Correct CalcWeights, I 
 // regulate them with the dumping factor, so the check will fail.
 

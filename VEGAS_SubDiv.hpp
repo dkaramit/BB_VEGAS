@@ -1,6 +1,7 @@
 #ifndef VEGAS_SubDiv
 #define VEGAS_SubDiv
-#include"VEGAS.hpp"
+#include"VEGAS_PartInts.hpp"
+#include"VEGAS_UpBin.hpp"
 
 // Starting with NBinInit number of bin, this function subdivides the grid 
 // until the number of bins reaches NBin.
