@@ -8,7 +8,7 @@ void VEGAS<LD,NDim,NBin,NBinInit,RandEn>::UpdateBins(int NB){
 
     LD AbsInt = PartialIntegrals(NB);
     LD dx0;
-    LD binsizes[NB];
+    std::vector<LD> binsizes(NB);
 
     LD w0;//This is a temporary variable to keep weights[dim][0]. Do this in order to be able to reset
     // all weights at the end of each loop. 

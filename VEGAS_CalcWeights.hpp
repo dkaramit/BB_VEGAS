@@ -28,7 +28,10 @@ LD VEGAS<LD,NDim,NBin,NBinInit,RandEn>::CalculateWeights(int NB){
         for(int dim = 0 ; dim < NDim ; ++dim){
             bins[dim]=RandomBin(NB);
             point[dim] = Random( Grid[dim][bins[dim]] , Grid[dim][bins[dim]+1] ); 
-            inv_dist*=NBin*(Grid[dim][bins[dim]+1] - Grid[dim][bins[dim]]);
+            
+            //note that I multiply by NB bacause this is the number of bins (NB=NBin only after the subdivision has ended)
+            inv_dist*=NB*(Grid[dim][bins[dim]+1] - Grid[dim][bins[dim]]);
+
         }
         Integrand( point , &FuncPoint );
         AbsInt +=  std::abs(FuncPoint) * inv_dist;
