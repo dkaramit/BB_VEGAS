@@ -3,6 +3,7 @@
 #include"VEGAS.hpp"
 
 
+
 // Calculate the  partial integrals as well as NPoints*\int_{0}^1 dx |f|.
 // The actual wheights are calculated in CalcWeights-Check.hpp, but here we just 
 // do this so that this will be calced for UpdateBins(), regulate pass the partial integrals
@@ -12,7 +13,17 @@ template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
 LD VEGAS<LD,NDim,NBin,NBinInit,RandEn>::PartialIntegrals(int NB){
     int Points=AdaptPoints;
     if(NB != NBin){ Points=SubDivPoints; }
+    
 
+    // Caution: PartialIntegrals assumes that weights = {0}. 
+    // So, it *must* be run after the weights have been set to zero.
+    // If you cannot guarantee this, uncomment for following.
+    // ----- Set weights to zero.
+    // for(int dim = 0 ; dim < NDim ; ++dim){
+    //     for(int bin = 0 ; bin < NB ; ++bin){
+    //         weights[dim][bin]=0;
+    //     }
+    // }
 
     LD FuncPoint, point[NDim];
     int bins[NDim];

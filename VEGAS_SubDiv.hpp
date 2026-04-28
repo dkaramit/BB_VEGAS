@@ -12,9 +12,9 @@ void VEGAS<LD,NDim,NBin,NBinInit,RandEn>::SubDivision(){
     int ind;
     LD mid;
 
-    for(int bin = NBinInit ; bin<NBin ; bin++){   
+    for(int number_of_bins = NBinInit ; number_of_bins<NBin ; number_of_bins++){   
         // calculate the weights
-        PartialIntegrals(bin);
+        PartialIntegrals(number_of_bins);
         
         // in each dimension, find the bin with the maximum weight, and add a new point in the middle  
         //  of this bin. Then run UpdateBins to refine the new grid.
@@ -25,10 +25,15 @@ void VEGAS<LD,NDim,NBin,NBinInit,RandEn>::SubDivision(){
 
             Grid[dim].insert(Grid[dim].begin()+ind+1,mid);
             weights[dim].insert(it,0);
+            
+            // Set weights to zero. This is because subdivision ends here.
+            // UpdateBins computes the weights for the new grid size,
+            // So, it needs them to zero.
+            for(int bin = 0 ; bin < number_of_bins+1 ; ++bin){ weights[dim][bin]=0;}
         }
 
         // refine the new grid NAdaptSubDivs times
-        for(int n_sub = 0; n_sub < NAdaptSubDivs ; ++n_sub){UpdateBins(bin+1);}        
+        for(int n_sub = 0; n_sub < NAdaptSubDivs ; ++n_sub){UpdateBins(number_of_bins+1);}
     }
 }
 
