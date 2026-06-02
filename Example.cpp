@@ -41,7 +41,7 @@ void integrand(LD x[NDim], LD *retrn){
 } 
 
 // the two settings we'll comare
-using vegas = VEGAS<LD,NDim,50,25>;
+using vegas = VEGAS<LD,NDim,50,50>;
 using plain = VEGAS<LD,NDim,1,1>; // this is basically a plain Monte Carlo 
 
 int main(){
@@ -61,7 +61,7 @@ int main(){
         {
             Timer _;// the timer will print the duration at the end of this scope
             // Remeber that you can use "named" parameters (clearer what you pass). 
-            vegas VIntegral{integrand,300,100,5,300,5,300,0.1,0.3};
+            vegas VIntegral{integrand,300,100,5,3000,5,300,1,1};
             
             //you could do something like the following, but it doesn't work on mac... 
             // vegas VIntegral {.function = integrand,
