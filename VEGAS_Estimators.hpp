@@ -97,7 +97,9 @@ LD plain_estimator(LD *IntMean, LD *IntSigma, const std::vector<LD>& means , con
 
     *IntMean=SumI/batch_size;
     
-    *IntSigma=std::sqrt( std::abs(SumI2 - SumI*SumI/batch_size )/(batch_size*(batch_size-1)) );
+    LD dI = SumI2 - SumI*SumI/batch_size;
+    if(dI<0){dI=0;}
+    *IntSigma=std::sqrt( dI/(batch_size*(batch_size-1)) );
 
     // \chi^2 is not defined for this estimator
     return  -1;

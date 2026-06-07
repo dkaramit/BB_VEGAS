@@ -68,7 +68,7 @@ class VEGAS{
         // Use this to take batches. IntMean is the result, IntSigma is sqrt(Var).
         // It returns chi^2/(NBathes-1) which should be close to 1.
         LD IntegrateBatch(LD *IntMean, LD *IntSigma);
-        LD BatchEstimator(LD *IntMean, LD *IntSigma, const std::vector<LD>& means , const std::vector<LD>& vars){
+        LD batch_estimator(LD *IntMean, LD *IntSigma, const std::vector<LD>& means , const std::vector<LD>& vars){
             if constexpr (Estimator == BatchEstimator::vegas){return vegas_estimator(IntMean,IntSigma,means,vars);}
             else if constexpr (Estimator == BatchEstimator::least_squares){return least_squares_estimator(IntMean,IntSigma,means,vars);}
             return plain_estimator(IntMean,IntSigma,means,vars);

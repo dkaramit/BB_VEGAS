@@ -16,7 +16,7 @@ LD VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::IntegrateBatch(LD *IntMean, LD
 
     for(int batch = 0; batch < NBatches; ++batch) { IntegrateTot(&means[batch], &vars[batch]); }
 
-    return BatchEstimator(IntMean,IntSigma,means,vars);
+    return batch_estimator(IntMean,IntSigma,means,vars);
 }
 
 
