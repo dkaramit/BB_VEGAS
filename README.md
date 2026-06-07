@@ -13,12 +13,6 @@ A ```VEGAS``` Monte Carlo Integration project. As the name implies, it is just a
 
 This project started in the [*ASAP*](https://dkaramit.github.io/ASAP) project, where everything is made simple. Explanations on how the algorithm works can be found there. Examples on how to use the code, though, are given here.
 
----
-## To-do :
-- [X] Add subdivision phase.
-- [ ] Read and write grid.
-- [ ] Maybe better regularization of weights?
-
 That's it for now.
 
 Enjoy,

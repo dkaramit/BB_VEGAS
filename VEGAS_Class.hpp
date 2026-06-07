@@ -71,22 +71,6 @@ class VEGAS{
 
         // Combine everything together. First adapt, and then run IntegrateBatch
         LD Integrate(LD *IntMean, LD *IntSigma);
-
-
-
-        //---These are for the auxiliary functions. You can remove them with no effect.
-        
-        // prints binpoints of NDim
-        void PrintGrid(int dim);
-        // prints all binpoints
-        void PrintGrid();
-        
-        void PrintWeights();
-        
-        // Calculate the  weights. Just to check that the algorithm works. In practice we only need the partial integrals.
-        LD CalculateWeights();
-        // check that the sum of wieghts in each dimension is 1; (this is in CalcWeights-Check.hpp)
-        void CheckWeights();
 };
 
 #endif

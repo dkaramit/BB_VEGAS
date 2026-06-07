@@ -19,34 +19,28 @@ ifeq ($(DEBUG),1)
 endif
 
 FLG=  -std=c++17  -I "$(Path)" -lm -DLONG=$(LONG)  $(OPT)
+HPP=$(wildcard *.hpp)
+
 
 all: VEGAS.run SimpleExample.run Example.run FunctorExample.run
 
-VEGAS.run: VEGAS.cpp VEGAS.hpp VEGAS_CalcWeights.hpp VEGAS_Int.hpp VEGAS_Rnd.hpp\
-		   VEGAS_Aux.hpp VEGAS_Class.hpp VEGAS_IntTot.hpp VEGAS_Batch.hpp\
-		   VEGAS_Const.hpp VEGAS_PartInts.hpp VEGAS_UpBin.hpp VEGAS_Estimators.hpp makefile
+VEGAS.run: $(HPP) VEGAS.cpp makefile
 
 
 	$(CC) -Wall -o "$(Path)/VEGAS.run" "$(Path)/VEGAS.cpp" $(FLG) 
 
 
-Example.run: Example.cpp VEGAS.hpp VEGAS_CalcWeights.hpp VEGAS_Int.hpp VEGAS_Rnd.hpp\
-		   VEGAS_Aux.hpp VEGAS_Class.hpp VEGAS_IntTot.hpp VEGAS_Batch.hpp\
-		   VEGAS_Const.hpp VEGAS_PartInts.hpp VEGAS_UpBin.hpp VEGAS_Estimators.hpp makefile
+Example.run: Example.cpp $(HPP) makefile
 
 
 	$(CC) -Wall -o "$(Path)/Example.run" "$(Path)/Example.cpp" $(FLG) 
 
-SimpleExample.run: SimpleExample.cpp VEGAS.hpp VEGAS_CalcWeights.hpp VEGAS_Int.hpp VEGAS_Rnd.hpp\
-		   VEGAS_Aux.hpp VEGAS_Class.hpp VEGAS_IntTot.hpp VEGAS_Batch.hpp\
-		   VEGAS_Const.hpp VEGAS_PartInts.hpp VEGAS_UpBin.hpp VEGAS_Estimators.hpp makefile
+SimpleExample.run: SimpleExample.cpp $(HPP) makefile
 
 
 	$(CC) -Wall -o "$(Path)/SimpleExample.run" "$(Path)/SimpleExample.cpp" $(FLG) 
 
-FunctorExample.run: FunctorExample.cpp VEGAS.hpp VEGAS_CalcWeights.hpp VEGAS_Int.hpp VEGAS_Rnd.hpp\
-		   VEGAS_Aux.hpp VEGAS_Class.hpp VEGAS_IntTot.hpp VEGAS_Batch.hpp\
-		   VEGAS_Const.hpp VEGAS_PartInts.hpp VEGAS_UpBin.hpp  VEGAS_Estimators.hpp makefile
+FunctorExample.run: FunctorExample.cpp $(HPP) makefile
 
 
 	$(CC) -Wall -o "$(Path)/FunctorExample.run" "$(Path)/FunctorExample.cpp" $(FLG) 
