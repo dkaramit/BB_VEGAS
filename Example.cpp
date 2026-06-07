@@ -41,7 +41,7 @@ void integrand(LD x[NDim], LD *retrn){
 } 
 
 // the two settings we'll comare
-using vegas = VEGAS<LD,NDim,50,50>;
+using vegas = VEGAS<LD,NDim,3,3>;
 using plain = VEGAS<LD,NDim,1,1>; // this is basically a plain Monte Carlo 
 
 int main(){

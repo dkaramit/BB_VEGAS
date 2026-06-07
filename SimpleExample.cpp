@@ -7,30 +7,30 @@
 #define NDim 3
 
 // initial number of bins (the same in every dimention)
-#define NBinInit 10
+#define NBinInit 25
 
 // desired number of bins (run subdivision until NBin is reached)
-#define NBin 10
+#define NBin 25
 
 // number of points in each evaluation of the integral
-#define NPoints 1500
+#define NPoints 1000
 // number of batches (each batch calculates the integral using NPoints number of poins).
-#define NBatches 50
+#define NBatches 25
 
 // Number of integrations to use to refine the grid
-#define NAdapts 25
+#define NAdapts 30
 // Number of points to use when refining the grid
-#define AdaptPoints 5
+#define AdaptPoints 350
 
 // Number of refinement during subdivision phase
-#define NAdaptSubDivs 1
+#define NAdaptSubDivs 10
 // Number of points to use during the subdivision phase 
 #define SubDivPoints 500
 
 // The constant that multiplies the regulated weights in the logarithm (you can take it to be ~1000).
 // the function that regulates the weights is different that what peaple use.
 //  K_const=0 implies no logarithmic term
-#define constK 1e4
+#define constK 1
 
 // The damping exponent. This regulates how fast the grid adapts. It should be in [0.2,2],
 // but I find that 0.5 usually works  given large enough NAdapts.
@@ -52,7 +52,12 @@ using std::endl;
 
 
 void integrand(double u[NDim], double *retrn) {
-    *retrn = u[0]+u[1]+u[2];
+    // *retrn = u[0]+u[1]+u[2];
+    // *retrn = std::exp(-(std::pow(u[0]-0.5,2)+std::pow(u[1]-0.5,2)+std::pow(u[2]-0.5,2))*1e5);
+    
+    *retrn =0; 
+    // std::exp( - std::pow(u[0] -0.5,2 )/10 ) * std::exp( - std::pow(u[1] -0.5,2 )/10 ) * std::exp( - std::pow(u[2] -0.5,2 )/10 )*
+    // std::sin(u[0] -0.5)*std::sin(u[1] -0.5)*std::sin(u[2] -0.5);
 }
 
 
@@ -60,10 +65,17 @@ int main(){
     VEGAS<double,NDim,NBin,NBinInit> Integral(integrand,
     NPoints , NBatches , NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints, constK , alpha);
 
-    double result, err,R;
+    {
+        for (size_t i = 0; i < 5; i++){Integral.UpdateBins();}
+        
+        double result, err;
+        Integral.IntegrateTot(&result,&err);
+        cout<<"I= "<<result<<" +/- "<<err<<endl;
+    }
+    // double result, err,R;
+    // R=Integral.Integrate(&result,&err);
+    // cout<<"I= "<<result<<" +/- "<<err<<" R= "<<R<<endl;
 
-    R=Integral.Integrate(&result,&err);
-    cout<<"I= "<<result<<" +/- "<<err<<" R= "<<R<<endl;
 
     return 0;
 }

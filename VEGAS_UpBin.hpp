@@ -13,49 +13,66 @@ void VEGAS<LD,NDim,NBin,NBinInit,RandEn>::UpdateBins(int NB){
     
     LD dx0;
     std::vector<LD> binsizes(NB);
+    std::vector<LD> smooth_weights(NB);
 
-    LD w0;//This is a temporary variable to keep weights[dim][0]. Do this in order to be able to reset
+    for(int dim = 0 ; dim < NDim ; ++dim){
+        for(int bin = 0 ; bin < NB ; ++bin){
+            // compute smoothed weights. This prevents from weights updating uncontrollably and causing 
+            // instabilities, nan, etc.
+            LD left  = weights[dim][bin == 0    ? bin : bin - 1];
+            LD mid   = weights[dim][bin];
+            LD right = weights[dim][bin == NB-1 ? bin : bin + 1];
+            // this is one way to smooth the weights. 
+            smooth_weights[bin] = (left + 2*mid + right) / 4;
+        }
+        // substitute teh weights with the smoothed ones
+        for (int bin = 0; bin < NB; ++bin) {weights[dim][bin] = std::max(smooth_weights[bin],eps<LD>);}
+
+    }
+
+
     // all weights at the end of each loop. 
     for(int dim = 0 ; dim < NDim ; ++dim){
         // this will give me the full integral needed to normalize the weights
         LD WeightNorm = 0;
-
+        
         for(int bin = 0 ; bin < NB ; ++bin){
             binsizes[bin] = Grid[dim][bin+1] - Grid[dim][bin];
-            WeightNorm += weights[dim][bin] * binsizes[bin];
+            WeightNorm += weights[dim][bin] * binsizes[bin];    
 
         }
         
-        // this is one way to find the  new delta x_0
-        // delta x'_0 = delta x_0/(m_0+1)*\sum_{i=0}^{NBin}( delta x_i/(m_i+1) )^{-1}.
-        // At the same time save the binsizes in order to update Grid directly
+
         dx0=0;
-        
-        // The first weight is important for all subsequesnt weights.
-        //this is the normalized weight. 
-        LD f0 = weights[dim][0] * binsizes[0] / WeightNorm;
-        // this is the regulated weight.
-        w0 = 1 + std::pow( 1 + f0 * std::log(constK * f0 + 1) , alpha);
-        // w0=constK* std::pow((f0-1)/std::log(f0) ,alpha);
+        // std::cout<<dim<<": \n";
         for( int bin = 0 ; bin < NB ; ++bin){
-            //this is the normalized weight. 
-            LD f = weights[dim][bin] * binsizes[bin] / WeightNorm;
-            // this is the regulated weight.
-            weights[dim][bin] = 1 + std::pow( 1 + f * std::log(constK * f + 1), alpha);
-            // weights[dim][bin] = constK* std::pow((f-1)/std::log(f) ,alpha);;
-            dx0+=w0/binsizes[0]*(binsizes[bin]/weights[dim][bin]);
+
+            //compute the normalized weight. 
+            LD f = NB*weights[dim][bin] * binsizes[bin] / WeightNorm;
+            LD delta = f - 1;
+            if(std::abs(delta) < eps<LD>){weights[dim][bin]=1.+delta/2;}
+            else{weights[dim][bin] = delta/std::log(f);}
+            weights[dim][bin] = std::pow(weights[dim][bin],alpha);
+
+            // std::cout<<weights[dim][bin] <<"\t" <<binsizes[bin] <<"\t"<< WeightNorm<<"\t"<<f<<"\n";
+            dx0+=(binsizes[bin]/weights[dim][bin]);
+            // without regularization do this:
+            // dx0+=binsizes[bin]/weights[dim][bin];
         }
 
         dx0=1/dx0;
         Grid[dim][0] = 0; // this is true by default. But put it to be sure...
 
         for( int bin = 0 ; bin < NB ; ++bin){
-            Grid[dim][bin+1]=Grid[dim][bin]+dx0*binsizes[bin]/weights[dim][bin]*w0/binsizes[0];
+
+            Grid[dim][bin+1]=Grid[dim][bin]+dx0*binsizes[bin]/weights[dim][bin];
+
+            // std::cout<<Grid[dim][bin] <<"\t" <<Grid[dim][bin+1]<<"\n";
+
             weights[dim][bin]=0; //You no longer need this weight. 
         }
-        
+
     }
-    // std::cout<<"\n";
 
 }
 

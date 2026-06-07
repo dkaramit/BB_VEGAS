@@ -14,7 +14,8 @@
 // NBinInit the number of intial bins (if NBinInit ~= NBin, run subdivision until the number of buns is NBin)
 // RandEn the random engine. This is optional, since I use a std::mt19937_64 as default
 
-
+template<class LD>
+constexpr LD eps = std::sqrt(std::numeric_limits<LD>::epsilon());
 
 //Pass Dimension and number of bins in template, to make the code clearer (I think its faster than using new).   
 template<class LD, int NDim, int NBin, int NBinInit, class RandEn=std::mt19937_64>
@@ -54,7 +55,7 @@ class VEGAS{
 
         // Claculate the partial integrals. Returns \int|f|*NPoints. This is what we need to 
         // get the regulated weights. 
-        LD PartialIntegrals(int NB=NBin);
+        void PartialIntegrals(int NB=NBin);
 
         // subdivide the bin with the largest contribution untion you have NBin number of bins
         void SubDivision();
