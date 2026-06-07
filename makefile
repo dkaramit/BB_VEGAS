@@ -24,7 +24,7 @@ all: VEGAS.run SimpleExample.run Example.run FunctorExample.run
 
 VEGAS.run: VEGAS.cpp VEGAS.hpp VEGAS_CalcWeights.hpp VEGAS_Int.hpp VEGAS_Rnd.hpp\
 		   VEGAS_Aux.hpp VEGAS_Class.hpp VEGAS_IntTot.hpp VEGAS_SubDiv.hpp VEGAS_Batch.hpp\
-		   VEGAS_Const.hpp VEGAS_PartInts.hpp VEGAS_UpBin.hpp makefile
+		   VEGAS_Const.hpp VEGAS_PartInts.hpp VEGAS_UpBin.hpp VEGAS_Estimators.hpp makefile
 
 
 	$(CC) -Wall -o "$(Path)/VEGAS.run" "$(Path)/VEGAS.cpp" $(FLG) 
@@ -32,21 +32,21 @@ VEGAS.run: VEGAS.cpp VEGAS.hpp VEGAS_CalcWeights.hpp VEGAS_Int.hpp VEGAS_Rnd.hpp
 
 Example.run: Example.cpp VEGAS.hpp VEGAS_CalcWeights.hpp VEGAS_Int.hpp VEGAS_Rnd.hpp\
 		   VEGAS_Aux.hpp VEGAS_Class.hpp VEGAS_IntTot.hpp VEGAS_SubDiv.hpp VEGAS_Batch.hpp\
-		   VEGAS_Const.hpp VEGAS_PartInts.hpp VEGAS_UpBin.hpp makefile
+		   VEGAS_Const.hpp VEGAS_PartInts.hpp VEGAS_UpBin.hpp VEGAS_Estimators.hpp makefile
 
 
 	$(CC) -Wall -o "$(Path)/Example.run" "$(Path)/Example.cpp" $(FLG) 
 
 SimpleExample.run: SimpleExample.cpp VEGAS.hpp VEGAS_CalcWeights.hpp VEGAS_Int.hpp VEGAS_Rnd.hpp\
 		   VEGAS_Aux.hpp VEGAS_Class.hpp VEGAS_IntTot.hpp VEGAS_SubDiv.hpp VEGAS_Batch.hpp\
-		   VEGAS_Const.hpp VEGAS_PartInts.hpp VEGAS_UpBin.hpp makefile
+		   VEGAS_Const.hpp VEGAS_PartInts.hpp VEGAS_UpBin.hpp VEGAS_Estimators.hpp makefile
 
 
 	$(CC) -Wall -o "$(Path)/SimpleExample.run" "$(Path)/SimpleExample.cpp" $(FLG) 
 
 FunctorExample.run: FunctorExample.cpp VEGAS.hpp VEGAS_CalcWeights.hpp VEGAS_Int.hpp VEGAS_Rnd.hpp\
 		   VEGAS_Aux.hpp VEGAS_Class.hpp VEGAS_IntTot.hpp VEGAS_SubDiv.hpp VEGAS_Batch.hpp\
-		   VEGAS_Const.hpp VEGAS_PartInts.hpp VEGAS_UpBin.hpp makefile
+		   VEGAS_Const.hpp VEGAS_PartInts.hpp VEGAS_UpBin.hpp  VEGAS_Estimators.hpp makefile
 
 
 	$(CC) -Wall -o "$(Path)/FunctorExample.run" "$(Path)/FunctorExample.cpp" $(FLG) 

@@ -5,8 +5,8 @@
 
 // Starting with NBinInit number of bin, this function subdivides the grid 
 // until the number of bins reaches NBin.
-template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
-void VEGAS<LD,NDim,NBin,NBinInit,RandEn>::SubDivision(){
+template<class LD, int NDim, int NBin, int NBinInit, BatchEstimator Estimator, class RandEn>
+void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::SubDivision(){
 
     // we need an iterator to easily find the bin with the maximum weight
     typename std::vector<LD>::iterator it;

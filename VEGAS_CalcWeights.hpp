@@ -9,8 +9,8 @@
 
 // Calsulate the weights. Basically, you calculate int_{0}^{1} |f|, and as you sample you can also 
 // get the partial integrals (since you know in which bin is each point). 
-template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
-LD VEGAS<LD,NDim,NBin,NBinInit,RandEn>::CalculateWeights(int NB){
+template<class LD, int NDim, int NBin, int NBinInit, BatchEstimator Estimator, class RandEn>
+LD VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::CalculateWeights(int NB){
     LD FuncPoint, point[NDim];
     int bins[NDim];
     LD inv_dist;
@@ -60,8 +60,8 @@ LD VEGAS<LD,NDim,NBin,NBinInit,RandEn>::CalculateWeights(int NB){
 }
 
 
-template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
-void VEGAS<LD,NDim,NBin,NBinInit,RandEn>::CheckWeights(int NB){
+template<class LD, int NDim, int NBin, int NBinInit, BatchEstimator Estimator, class RandEn>
+void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::CheckWeights(int NB){
     LD tmp;
 
         for(int dim = 0 ; dim < NDim ; ++dim)

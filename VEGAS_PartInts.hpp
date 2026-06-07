@@ -22,8 +22,8 @@
 // // do this so that this will be calced for UpdateBins(), regulate pass the partial integrals
 // // as m->m+1 , m-> (K* m log( m ))^alpha.
 
-template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
-void VEGAS<LD,NDim,NBin,NBinInit,RandEn>::PartialIntegrals(int NB){
+template<class LD, int NDim, int NBin, int NBinInit, BatchEstimator Estimator, class RandEn>
+void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::PartialIntegrals(int NB){
     int Points=AdaptPoints;
     
     

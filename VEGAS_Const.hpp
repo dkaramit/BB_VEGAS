@@ -3,9 +3,9 @@
 #include"VEGAS.hpp"
 
 
-template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
-VEGAS<LD,NDim,NBin,NBinInit,RandEn>::VEGAS( Func function, int NPoints, int NBatches, 
-        int NAdapts, int AdaptPoints, int NAdaptSubDivs, int SubDivPoints, LD constK, LD alpha){
+template<class LD, int NDim, int NBin, int NBinInit, BatchEstimator Estimator, class RandEn>
+VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::VEGAS( Func function, int NPoints, int NBatches, 
+        int NAdapts, int AdaptPoints, int NAdaptSubDivs, int SubDivPoints, LD alpha){
     this->Integrand = function;
     this->NPoints = NPoints;
     this->NBatches = NBatches;
@@ -13,10 +13,6 @@ VEGAS<LD,NDim,NBin,NBinInit,RandEn>::VEGAS( Func function, int NPoints, int NBat
     this->AdaptPoints = AdaptPoints;
     this->NAdaptSubDivs=NAdaptSubDivs;
     this->SubDivPoints=SubDivPoints;
-    
-
-
-    this->constK = constK;
     this->alpha = alpha;
 
     for( int dim=0 ; dim<NDim ; ++dim ){

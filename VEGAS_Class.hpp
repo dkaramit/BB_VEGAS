@@ -7,6 +7,8 @@
 #include <algorithm>
 #include<random>
 #include<functional>
+#include<VEGAS_Estimators.hpp>
+
 
 // define some macros to avoid copy-paste of the same thing again and again:
 // NDim the number of dimensions
@@ -14,21 +16,17 @@
 // NBinInit the number of intial bins (if NBinInit ~= NBin, run subdivision until the number of buns is NBin)
 // RandEn the random engine. This is optional, since I use a std::mt19937_64 as default
 
-template<class LD>
-constexpr LD eps = std::sqrt(std::numeric_limits<LD>::epsilon());
-
 //Pass Dimension and number of bins in template, to make the code clearer (I think its faster than using new).   
-template<class LD, int NDim, int NBin, int NBinInit, class RandEn=std::mt19937_64>
+template<class LD, int NDim, int NBin, int NBinInit, BatchEstimator Estimator = BatchEstimator::vegas , class RandEn=std::mt19937_64>
 class VEGAS{
     using Func = std::function<void(LD u[NDim], LD *retrn)>;
     public:
         Func Integrand; //this is the function to be integrated
         
         int NPoints, NBatches, NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints;
+        
         // alpha is the exponent used to regulate the weights.
-        // constK makes the difference between the large and small weights grater (provided is a large number).
-        // See UpdateBins to see how it affects the regulated weights.
-        LD  constK, alpha ; 
+        LD  alpha ; 
 
         // Notice that N number of bins need N+1 points to be defined
         // LD Grid[NDim][NBin+1];
@@ -41,7 +39,7 @@ class VEGAS{
 
 
         VEGAS( Func function, int NPoints, int NBatches, 
-        int NAdapts, int AdaptPoints, int NAdaptSubDivs, int SubDivPoints, LD constK=50., LD alpha=0.9);
+        int NAdapts, int AdaptPoints, int NAdaptSubDivs, int SubDivPoints, LD alpha=0.9);
         
         ~VEGAS(){};
 
@@ -70,6 +68,11 @@ class VEGAS{
         // Use this to take batches. IntMean is the result, IntSigma is sqrt(Var).
         // It returns chi^2/(NBathes-1) which should be close to 1.
         LD IntegrateBatch(LD *IntMean, LD *IntSigma);
+        LD BatchEstimator(LD *IntMean, LD *IntSigma, const std::vector<LD>& means , const std::vector<LD>& vars){
+            if constexpr (Estimator == BatchEstimator::vegas){return vegas_estimator(IntMean,IntSigma,means,vars);}
+            else if constexpr (Estimator == BatchEstimator::least_squares){return least_squares_estimator(IntMean,IntSigma,means,vars);}
+            return plain_estimator(IntMean,IntSigma,means,vars);
+        }
 
         // Combine everything together. First adapt, and then run IntegrateBatch
         LD Integrate(LD *IntMean, LD *IntSigma);
@@ -83,9 +86,6 @@ class VEGAS{
         // prints all binpoints
         void PrintGrid();
         
-        // 
-        void PrintDist();
-
         void PrintWeights();
         
         // Calculate the  weights. Just to check that the algorithm works. In practice we only need the partial integrals.

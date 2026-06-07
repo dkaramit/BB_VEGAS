@@ -11,8 +11,8 @@
 // Here, 1/p(x) is calculated at the same time you find the point, sine it is just 
 // (number of bins)*(binsize of the selected bin).
 
-template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
-LD VEGAS<LD,NDim,NBin,NBinInit,RandEn>::IntegrateTot( ){
+template<class LD, int NDim, int NBin, int NBinInit, BatchEstimator Estimator, class RandEn>
+LD VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::IntegrateTot( ){
     LD FuncPoint, point[NDim];
     int bin;
     LD inv_dist;
@@ -37,9 +37,8 @@ LD VEGAS<LD,NDim,NBin,NBinInit,RandEn>::IntegrateTot( ){
 
 
 // Get the integral and pass the result and the variance as references.
-
-template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
-void VEGAS<LD,NDim,NBin,NBinInit,RandEn>::IntegrateTot(LD *IntMean, LD *IntVariance ){
+template<class LD, int NDim, int NBin, int NBinInit, BatchEstimator Estimator, class RandEn>
+void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::IntegrateTot(LD *IntMean, LD *IntVariance ){
     LD FuncPoint, point[NDim];
     
     int bin;

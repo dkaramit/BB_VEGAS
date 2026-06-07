@@ -4,8 +4,13 @@
 #include"VEGAS_PartInts.hpp"
 
 
-template<class LD, int NDim, int NBin, int NBinInit, class RandEn>
-void VEGAS<LD,NDim,NBin,NBinInit,RandEn>::UpdateBins(int NB){
+#include<limits>
+template<class LD>
+constexpr LD eps = std::sqrt(std::numeric_limits<LD>::epsilon());
+
+
+template<class LD, int NDim, int NBin, int NBinInit, BatchEstimator Estimator, class RandEn>
+void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::UpdateBins(int NB){
     // This function basically normalizes the weights computed in PartialIntegrals
 
     //just call PartialIntegrals to give me the weights. 
@@ -26,7 +31,7 @@ void VEGAS<LD,NDim,NBin,NBinInit,RandEn>::UpdateBins(int NB){
             smooth_weights[bin] = (left + 2*mid + right) / 4;
         }
         // substitute teh weights with the smoothed ones
-        for (int bin = 0; bin < NB; ++bin) {weights[dim][bin] = std::max(smooth_weights[bin],eps<LD>);}
+        for (int bin = 0; bin < NB; ++bin) {weights[dim][bin] = std::max(smooth_weights[bin],eps<LD>*eps<LD>);}
 
     }
 
