@@ -103,11 +103,13 @@ void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::PartialIntegrals(int NB){
 
         
         // This is the partial integral ( in the bin of dim, and [0,1] for all other dims). 
-        // In each bin of each dim you just sum the contribution f^2/p.
+        // In each bin of each dim you just sum the contribution f^2/p^2 (because we want the integral over f^2/p).
         // Here p is the density of all dimensions without current  "dim", this is why I divide with inv_p_dim[dim]. 
         // You don't double-count anything because the dimensions are independent.
         for(int dim = 0 ; dim < NDim ; ++dim){
-            weights[dim][bins[dim]]+=FuncPoint*FuncPoint * full_inv_p/inv_p_dim[dim]/dx_dim[dim]; // this is the updade in Lapage's paper
+            // this is the updade in Lapage's paper
+            if constexpr (NDim==1){weights[dim][bins[dim]]+=std::abs(FuncPoint)*(full_inv_p/inv_p_dim[dim]);}
+            if constexpr (NDim>1){weights[dim][bins[dim]]+=FuncPoint*FuncPoint*(full_inv_p/inv_p_dim[dim])*(full_inv_p/inv_p_dim[dim]);}
             ++bin_visits[dim][bins[dim]];
         }
         
@@ -116,8 +118,8 @@ void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::PartialIntegrals(int NB){
     //the update needs the square root of the the integral over f^2/p (here p is the density of all dimensions without current  "dim")
     for (int dim = 0; dim < NDim; ++dim){
         for (int bin = 0; bin < NB; ++bin){
-            weights[dim][bin] =std::sqrt(weights[dim][bin] / bin_visits[dim][bin]);
-
+            if constexpr (NDim==1){weights[dim][bin]=weights[dim][bin]/bin_visits[dim][bin];}
+            if constexpr (NDim>1){weights[dim][bin] =std::sqrt(weights[dim][bin]/bin_visits[dim][bin]);}
         }
     }
 
