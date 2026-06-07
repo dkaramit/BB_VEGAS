@@ -18,8 +18,8 @@ ifeq ($(DEBUG),1)
   OPT = -O0 -g 
 endif
 
-FLG=  -std=c++17  -I "$(Path)" -lm -DLONG=$(LONG)  $(OPT)
-HPP=$(wildcard *.hpp)
+FLG=  -std=c++17  -I "$(Path)" -lm -DLONG=$(LONG)  $(OPT) -I VEGAS
+HPP=$(wildcard VEGAS/*.hpp)
 
 
 all: VEGAS.run SimpleExample.run Example.run FunctorExample.run
