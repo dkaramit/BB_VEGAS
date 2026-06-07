@@ -7,20 +7,20 @@
 #define NDim 3
 
 // initial number of bins (the same in every dimention)
-#define NBinInit 50
+#define NBinInit 150
 
 // desired number of bins (run subdivision until NBin is reached)
-#define NBin 50
+#define NBin 150
 
 // number of points in each evaluation of the integral
-#define NPoints 500
+#define NPoints 1500
 // number of batches (each batch calculates the integral using NPoints number of poins).
 #define NBatches 25
 
 // Number of integrations to use to refine the grid
-#define NAdapts 100
+#define NAdapts 50
 // Number of points to use when refining the grid
-#define AdaptPoints 5000
+#define AdaptPoints 2000
 
 // Number of refinement during subdivision phase
 #define NAdaptSubDivs 10
@@ -30,7 +30,7 @@
 // The damping exponent. This regulates how fast the grid adapts. It should be in [0.2,2],
 // but I find that 0.5 usually works  given large enough NAdapts.
 // Large alpha destibilizes the adaptation, and small aplha results to slow adaptation. 
-#define alpha 0.04
+#define alpha 0.045
 
 
 // For the random engine (last optional template argument og VEGAS) 

@@ -37,11 +37,11 @@ class Timer{
 // (with R closer to 1) compared to the plain MC case (no subdivision, and no adaptation).
 // \int_{0}^{1} dx f(x) \approx 0.0056
 void integrand(LD x[NDim], LD *retrn){
-    *retrn = std::exp(-1e5*std::pow(x[0]-0.5,2)) ;
+    *retrn = std::exp(-1e7*std::pow(x[0]-0.5,2)) ;
 } 
 
 // the two settings we'll comare
-using vegas = VEGAS<LD,NDim,3,3>;
+using vegas = VEGAS<LD,NDim,50,50>;
 using plain = VEGAS<LD,NDim,1,1>; // this is basically a plain Monte Carlo 
 
 int main(){
@@ -61,14 +61,14 @@ int main(){
         {
             Timer _;// the timer will print the duration at the end of this scope
             // Remeber that you can use "named" parameters (clearer what you pass). 
-            vegas VIntegral{integrand,300,100,5,3000,5,300,1,1};
+            vegas VIntegral{integrand,1000,30,60,1000,0,0,0.03};
             
             //you could do something like the following, but it doesn't work on mac... 
             // vegas VIntegral {.function = integrand,
             //                 .NPoints = 300, .NBatches = 100, 
             //                 .NAdapts = 5, .AdaptPoints = 300, 
             //                 .NAdaptSubDivs = 5, .SubDivPoints = 300, 
-            //                 .constK = 0.1, .alpha = 0.3};
+            //                 .alpha = 0.3};
 
 
             R=VIntegral.Integrate(&result,&err);
@@ -87,7 +87,7 @@ int main(){
             // since the number of bins are set to 1,  NAdapts, NAdaptSubDivs, etc. should not play ant role,
             // but it's clearer if we put them to 0.
             // This choice gives consistent results (still with higher error), but much slower.
-            plain PIntegral {integrand, 2000,200, 0,0, 0, 0, 0., 0.};
+            plain PIntegral {integrand, 15000, 30, 0,0, 0, 0, 0.};
 
             R=PIntegral.Integrate(&result,&err);
             std::cout<<std::setprecision(8);

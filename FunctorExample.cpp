@@ -27,10 +27,6 @@
 // Number of points to use during the subdivision phase 
 #define SubDivPoints 500
 
-// The constant that multiplies the regulated weights in the logarithm (you can take it to be ~1000).
-// the function that regulates the weights is different that what peaple use.
-//  K_const=0 implies no logarithmic term
-#define constK 1e1
 
 // The damping exponent. This regulates how fast the grid adapts. It should be in [0.2,2],
 // but I find that 0.5 usually works  given large enough NAdapts.
@@ -65,7 +61,7 @@ int main(){
     integrand f(10);/*f is callable, and can be passed to VEGAS*/
 
     VEGAS<double,NDim,NBin,NBinInit> Integral(f,
-    NPoints , NBatches , NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints, constK , alpha);
+    NPoints , NBatches , NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints, alpha);
 
     double result, err,R;
 
