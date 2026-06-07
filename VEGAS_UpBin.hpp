@@ -53,7 +53,7 @@ void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::UpdateBins(int NB){
         for( int bin = 0 ; bin < NB ; ++bin){
 
             //compute the normalized weight. 
-            LD f = NB*weights[dim][bin] * binsizes[bin] / WeightNorm;
+            LD f = weights[dim][bin] * binsizes[bin] / WeightNorm;
             LD delta = f - 1;
             if(std::abs(delta) < eps<LD>){weights[dim][bin]=1.+delta/2;}
             else{weights[dim][bin] = delta/std::log(f);}
