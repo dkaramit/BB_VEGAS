@@ -22,19 +22,15 @@
 // // do this so that this will be calced for UpdateBins(), regulate pass the partial integrals
 // // as m->m+1 , m-> (K* m log( m ))^alpha.
 
-template<class LD, int NDim, int NBin, int NBinInit, BatchEstimator Estimator, class RandEn>
-void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::PartialIntegrals(int NB){
+template<class LD, int NDim, int NBin, BatchEstimator Estimator, class RandEn>
+void VEGAS<LD,NDim,NBin,Estimator,RandEn>::PartialIntegrals(){
     int Points=AdaptPoints;
     
     
-    
-    if(NB != NBin){ Points=SubDivPoints; }
-    
-    
     // this will make sure that each bin will visited at least one time.
-    if(Points < NB){ Points = NB; }
+    if(Points < NBin){ Points = NBin; }
     //list with bins for all dims
-    std::vector<std::vector<int>> bin_list(NDim, std::vector<int>(NB));
+    std::vector<std::vector<int>> bin_list(NDim, std::vector<int>(NBin));
     std::vector<int> bin_list_index(NDim, 0);
     
     //keep track of the bin_visits to have more accurate statistics
@@ -44,7 +40,7 @@ void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::PartialIntegrals(int NB){
     // So, it *must* be run after the weights have been set to zero.
     // ----- Nevertheless, set weights to zero.
     for(int dim = 0 ; dim < NDim ; ++dim){
-        for(int bin = 0 ; bin < NB ; ++bin){
+        for(int bin = 0 ; bin < NBin ; ++bin){
             weights[dim][bin]=0;
             bin_list[dim][bin]=bin;
             bin_visits[dim][bin] = 0;
@@ -82,7 +78,7 @@ void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::PartialIntegrals(int NB){
             // bins[dim]=RandomBin(NB);
 
             // instead choose a bin like this
-            if(bin_list_index[dim] == NB){
+            if(bin_list_index[dim] == NBin){
                 std::shuffle(bin_list[dim].begin(), bin_list[dim].end(), RndE);
                 bin_list_index[dim] = 0;
             }
@@ -91,8 +87,8 @@ void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::PartialIntegrals(int NB){
 
 
             dx_dim[dim] = Grid[dim][bins[dim]+1] - Grid[dim][bins[dim]];
-            //note that I multiply by NB bacause this is the number of bins (NB=NBin only after the subdivision has ended)
-            inv_p_dim[dim] = NB * dx_dim[dim];
+
+            inv_p_dim[dim] = NBin * dx_dim[dim];
             // accumilate the full distribution
             full_inv_p*= inv_p_dim[dim];
 
@@ -117,7 +113,7 @@ void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::PartialIntegrals(int NB){
     
     //the update needs the square root of the the integral over f^2/p (here p is the density of all dimensions without current  "dim")
     for (int dim = 0; dim < NDim; ++dim){
-        for (int bin = 0; bin < NB; ++bin){
+        for (int bin = 0; bin < NBin; ++bin){
             if constexpr (NDim==1){weights[dim][bin]=weights[dim][bin]/bin_visits[dim][bin];}
             if constexpr (NDim>1){weights[dim][bin] =std::sqrt(weights[dim][bin]/bin_visits[dim][bin]);}
         }

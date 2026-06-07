@@ -13,17 +13,16 @@
 // define some macros to avoid copy-paste of the same thing again and again:
 // NDim the number of dimensions
 // NBin the number of bins
-// NBinInit the number of intial bins (if NBinInit ~= NBin, run subdivision until the number of buns is NBin)
 // RandEn the random engine. This is optional, since I use a std::mt19937_64 as default
 
 //Pass Dimension and number of bins in template, to make the code clearer (I think its faster than using new).   
-template<class LD, int NDim, int NBin, int NBinInit, BatchEstimator Estimator = BatchEstimator::vegas , class RandEn=std::mt19937_64>
+template<class LD, int NDim, int NBin, BatchEstimator Estimator = BatchEstimator::vegas , class RandEn=std::mt19937_64>
 class VEGAS{
     using Func = std::function<void(LD u[NDim], LD *retrn)>;
     public:
         Func Integrand; //this is the function to be integrated
         
-        int NPoints, NBatches, NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints;
+        int NPoints, NBatches, NAdapts, AdaptPoints;
         
         // alpha is the exponent used to regulate the weights.
         LD  alpha ; 
@@ -38,8 +37,7 @@ class VEGAS{
         RandEn RndE;
 
 
-        VEGAS( Func function, int NPoints, int NBatches, 
-        int NAdapts, int AdaptPoints, int NAdaptSubDivs, int SubDivPoints, LD alpha=0.9);
+        VEGAS( Func function, int NPoints, int NBatches, int NAdapts, int AdaptPoints, LD alpha=0.9);
         
         ~VEGAS(){};
 
@@ -53,13 +51,10 @@ class VEGAS{
 
         // Claculate the partial integrals. Returns \int|f|*NPoints. This is what we need to 
         // get the regulated weights. 
-        void PartialIntegrals(int NB=NBin);
-
-        // subdivide the bin with the largest contribution untion you have NBin number of bins
-        void SubDivision();
+        void PartialIntegrals();
 
         // Update the bins
-        void UpdateBins(int NB=NBin);
+        void UpdateBins();
 
         // take the integral in [0,1]
         LD IntegrateTot();
@@ -89,9 +84,9 @@ class VEGAS{
         void PrintWeights();
         
         // Calculate the  weights. Just to check that the algorithm works. In practice we only need the partial integrals.
-        LD CalculateWeights(int NB=NBin);
+        LD CalculateWeights();
         // check that the sum of wieghts in each dimension is 1; (this is in CalcWeights-Check.hpp)
-        void CheckWeights(int NB=NBin);
+        void CheckWeights();
 };
 
 #endif

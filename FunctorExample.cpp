@@ -6,9 +6,6 @@
 // Dimention of integral (the first two examples)
 #define NDim 3
 
-// initial number of bins (the same in every dimention)
-#define NBinInit 5
-
 // desired number of bins (run subdivision until NBin is reached)
 #define NBin 25
 
@@ -21,11 +18,6 @@
 #define NAdapts 25
 // Number of points to use when refining the grid
 #define AdaptPoints 500
-
-// Number of refinement during subdivision phase
-#define NAdaptSubDivs 5
-// Number of points to use during the subdivision phase 
-#define SubDivPoints 500
 
 
 // The damping exponent. This regulates how fast the grid adapts. It should be in [0.2,2],
@@ -60,8 +52,7 @@ class integrand{
 int main(){
     integrand f(10);/*f is callable, and can be passed to VEGAS*/
 
-    VEGAS<double,NDim,NBin,NBinInit> Integral(f,
-    NPoints , NBatches , NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints, alpha);
+    VEGAS<double,NDim,NBin> Integral(f,NPoints , NBatches , NAdapts, AdaptPoints, alpha);
 
     double result, err,R;
 

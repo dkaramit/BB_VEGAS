@@ -9,8 +9,8 @@
 
 // Calsulate the weights. Basically, you calculate int_{0}^{1} |f|, and as you sample you can also 
 // get the partial integrals (since you know in which bin is each point). 
-template<class LD, int NDim, int NBin, int NBinInit, BatchEstimator Estimator, class RandEn>
-LD VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::CalculateWeights(int NB){
+template<class LD, int NDim, int NBin, BatchEstimator Estimator, class RandEn>
+LD VEGAS<LD,NDim,NBin,Estimator,RandEn>::CalculateWeights(){
     LD FuncPoint, point[NDim];
     int bins[NDim];
     LD inv_dist;
@@ -27,11 +27,11 @@ LD VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::CalculateWeights(int NB){
         // fill a point[NDims]. Get a random bin from each dimention. Here is where you can get 1/p(x).
         // Also in order to get the weight from this, you need to know in what bin is every point[dim].
         for(int dim = 0 ; dim < NDim ; ++dim){
-            bins[dim]=RandomBin(NB);
+            bins[dim]=RandomBin(NBin);
             point[dim] = Random( Grid[dim][bins[dim]] , Grid[dim][bins[dim]+1] ); 
             
             //note that I multiply by NB bacause this is the number of bins (NB=NBin only after the subdivision has ended)
-            inv_dist*=NB*(Grid[dim][bins[dim]+1] - Grid[dim][bins[dim]]);
+            inv_dist*=NBin*(Grid[dim][bins[dim]+1] - Grid[dim][bins[dim]]);
 
         }
         Integrand( point , &FuncPoint );
@@ -49,7 +49,7 @@ LD VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::CalculateWeights(int NB){
     // You can check and see that the sum over the bits of each dim is 1.
     for(int dim = 0 ; dim < NDim ; ++dim)
         {
-            for( int bin = 0 ; bin < NB ; ++bin)
+            for( int bin = 0 ; bin < NBin ; ++bin)
             {
                 weights[dim][bin]=weights[dim][bin]/AbsInt;
             }
@@ -60,14 +60,14 @@ LD VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::CalculateWeights(int NB){
 }
 
 
-template<class LD, int NDim, int NBin, int NBinInit, BatchEstimator Estimator, class RandEn>
-void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::CheckWeights(int NB){
+template<class LD, int NDim, int NBin, BatchEstimator Estimator, class RandEn>
+void VEGAS<LD,NDim,NBin,Estimator,RandEn>::CheckWeights(){
     LD tmp;
 
         for(int dim = 0 ; dim < NDim ; ++dim)
             {
                 tmp=0;
-                for( int bin = 0 ; bin < NB ; ++bin)
+                for( int bin = 0 ; bin < NBin ; ++bin)
                 {
                     tmp+=weights[dim][bin];
                 }

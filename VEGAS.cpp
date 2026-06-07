@@ -12,9 +12,6 @@
 // Dimention of integral (the first two examples)
 #define NDim 1
 
-// initial number of bins (the same in every dimention)
-#define NBinInit 25
-
 // desired number of bins (run subdivision until NBin is reached)
 #define NBin 100
 
@@ -27,16 +24,6 @@
 #define NAdapts 25
 // Number of points to use when refining the grid
 #define AdaptPoints 500
-
-// Number of refinement during subdivision phase
-#define NAdaptSubDivs 5
-// Number of points to use during the subdivision phase 
-#define SubDivPoints 500
-
-// The constant that multiplies the regulated weights in the logarithm (you can take it to be ~1000).
-// the function that regulates the weights is different that what peaple use.
-//  K_const=0 implies no logarithmic term
-#define constK 1e1
 
 // The damping exponent. This regulates how fast the grid adapts. It should be in [0.2,2],
 // but I find that 0.5 usually works  given large enough NAdapts.
@@ -74,9 +61,9 @@ int main(){
     auto t0=Clock::now(); 
     {
     #ifdef Bessel
-    VEGAS<LD,NDim,NBin,NBinInit> 
+    VEGAS<LD,NDim,NBin> 
     Integral([](LD u[NDim], LD *retrn){ LD x=1+u[0]/(1-u[0]);  (*retrn)= std::exp(-1e-5*x)*std::sqrt(x*x-1)/(1-u[0])/(1-u[0]);},
-        NPoints , NBatches , NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints, constK , alpha);
+        NPoints , NBatches , NAdapts, AdaptPoints , alpha);
     
     LD res,sigma,R;
     R=Integral.Integrate( &res,&sigma );
@@ -93,9 +80,9 @@ int main(){
     t0=Clock::now();    
     {
     #ifdef Gauss
-    VEGAS<LD,NDim,NBin,NBinInit> 
+    VEGAS<LD,NDim,NBin> 
     Integral([](LD x[NDim], LD *retrn){  (*retrn)= std::exp(-100.*std::pow(x[0]-0.5,2)) ;},
-        NPoints , NBatches , NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints, constK , alpha);
+        NPoints , NBatches , NAdapts, AdaptPoints , alpha);
     
     LD res,sigma,R;
     R=Integral.Integrate( &res,&sigma );
@@ -115,7 +102,7 @@ int main(){
     {
     #ifdef NDGauss
     const int ND=10;
-    VEGAS<LD,ND,NBin,NBinInit> 
+    VEGAS<LD,ND,100> 
     Integral([](LD x[ND], LD *retrn){  
         (*retrn)=1;
         for (int i=0 ; i<ND ; ++i)
@@ -123,7 +110,7 @@ int main(){
            (*retrn)*= std::exp(-100.*std::pow(x[i]-0.1*(i+1),2)) ;
         }
         },
-        NPoints , NBatches , NAdapts, AdaptPoints, NAdaptSubDivs, SubDivPoints, constK , alpha);
+        500 , 25 , 50, 800 , 0.5);
     
     LD res,sigma,R;
     R=Integral.Integrate( &res,&sigma );

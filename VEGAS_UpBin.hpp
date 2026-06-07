@@ -9,29 +9,29 @@ template<class LD>
 constexpr LD eps = std::sqrt(std::numeric_limits<LD>::epsilon());
 
 
-template<class LD, int NDim, int NBin, int NBinInit, BatchEstimator Estimator, class RandEn>
-void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::UpdateBins(int NB){
+template<class LD, int NDim, int NBin, BatchEstimator Estimator, class RandEn>
+void VEGAS<LD,NDim,NBin,Estimator,RandEn>::UpdateBins(){
     // This function basically normalizes the weights computed in PartialIntegrals
 
     //just call PartialIntegrals to give me the weights. 
-    PartialIntegrals(NB);
+    PartialIntegrals();
     
     LD dx0;
-    std::vector<LD> binsizes(NB);
-    std::vector<LD> smooth_weights(NB);
+    std::vector<LD> binsizes(NBin);
+    std::vector<LD> smooth_weights(NBin);
 
     for(int dim = 0 ; dim < NDim ; ++dim){
-        for(int bin = 0 ; bin < NB ; ++bin){
+        for(int bin = 0 ; bin < NBin ; ++bin){
             // compute smoothed weights. This prevents from weights updating uncontrollably and causing 
             // instabilities, nan, etc.
             LD left  = weights[dim][bin == 0    ? bin : bin - 1];
             LD mid   = weights[dim][bin];
-            LD right = weights[dim][bin == NB-1 ? bin : bin + 1];
+            LD right = weights[dim][bin == NBin-1 ? bin : bin + 1];
             // this is one way to smooth the weights. 
             smooth_weights[bin] = (left + 2*mid + right) / 4;
         }
         // substitute teh weights with the smoothed ones
-        for (int bin = 0; bin < NB; ++bin) {weights[dim][bin] = std::max(smooth_weights[bin],eps<LD>*eps<LD>);}
+        for (int bin = 0; bin < NBin; ++bin) {weights[dim][bin] = std::max(smooth_weights[bin],eps<LD>*eps<LD>);}
 
     }
 
@@ -41,7 +41,7 @@ void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::UpdateBins(int NB){
         // this will give me the full integral needed to normalize the weights
         LD WeightNorm = 0;
         
-        for(int bin = 0 ; bin < NB ; ++bin){
+        for(int bin = 0 ; bin < NBin ; ++bin){
             binsizes[bin] = Grid[dim][bin+1] - Grid[dim][bin];
             WeightNorm += weights[dim][bin] * binsizes[bin];    
 
@@ -50,7 +50,7 @@ void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::UpdateBins(int NB){
 
         dx0=0;
         // std::cout<<dim<<": \n";
-        for( int bin = 0 ; bin < NB ; ++bin){
+        for( int bin = 0 ; bin < NBin ; ++bin){
 
             //compute the normalized weight. 
             LD f = weights[dim][bin] * binsizes[bin] / WeightNorm;
@@ -68,7 +68,7 @@ void VEGAS<LD,NDim,NBin,NBinInit,Estimator,RandEn>::UpdateBins(int NB){
         dx0=1/dx0;
         Grid[dim][0] = 0; // this is true by default. But put it to be sure...
 
-        for( int bin = 0 ; bin < NB ; ++bin){
+        for( int bin = 0 ; bin < NBin ; ++bin){
 
             Grid[dim][bin+1]=Grid[dim][bin]+dx0*binsizes[bin]/weights[dim][bin];
 

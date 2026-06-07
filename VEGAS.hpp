@@ -2,7 +2,6 @@
 #include"VEGAS_Rnd.hpp"
 #include"VEGAS_Const.hpp"
 #include"VEGAS_PartInts.hpp"
-#include"VEGAS_SubDiv.hpp"
 #include"VEGAS_UpBin.hpp"
 
 #include"VEGAS_IntTot.hpp"
